@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>视频播放</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+      display: block;
+    }
+
+    .notice {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 90vw;
+      padding: 12px 18px;
+      border-radius: 10px;
+      background: rgba(58, 42, 18, 0.95);
+      border: 1px solid #6b4a1a;
+      color: #ffd79a;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      display: none;
+    }
+
+    .notice.show {
+      display: block;
+    }
+
+    .notice code {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: Consolas, monospace;
+      color: #ffe9c4;
+    }
+
+    #unmuteBtn {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 22px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      color: #111;
+      font-size: 0.95rem;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+
+    #unmuteBtn.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <video id="video" src="yunyuanshen.mp4" autoplay muted playsinline></video>
+
+  <button id="unmuteBtn">🔊 点击开启声音</button>
+
+  <div class="notice" id="notice">
+    ⚠️ 视频加载失败。请检查 <code>yunyuanshen.mp4</code> 是否与网页放在同一目录下。<br>
+    如果你是直接双击打开这个 HTML 文件（<code>file://</code> 协议），
+    浏览器会出于安全限制拒绝加载本地视频，请改用本地服务器或线上地址访问。
+  </div>
+
+  <script>
+    const video = document.getElementById('video');
+    const notice = document.getElementById('notice');
+    const unmuteBtn = document.getElementById('unmuteBtn');
+
+    // 页面打开即自动播放（静音可绕过浏览器的自动播放限制）
+    function tryAutoplay() {
+      const p = video.play();
+      if (p && p.catch) {
+        p.catch(() => {
+          // 自动播放被拦截时，等用户首次交互后再播放
+          const resume = () => {
+            video.play().catch(() => {});
+            document.removeEventListener('click', resume);
+            document.removeEventListener('keydown', resume);
+          };
+          document.addEventListener('click', resume);
+          document.addEventListener('keydown', resume);
+        });
+      }
+    }
+
+    tryAutoplay();
+
+    // 视频开始播放后，若处于静音则显示“开启声音”按钮
+    video.addEventListener('playing', () => {
+      unmuteBtn.classList.toggle('show', video.muted);
+    });
+
+    unmuteBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      video.muted = false;
+      video.volume = 1;
+      unmuteBtn.classList.remove('show');
+    });
+
+    // 加载失败时给出提示
+    video.addEventListener('error', () => {
+      notice.classList.add('show');
+      console.error('视频加载失败：', video.error);
+    });
+
+    video.addEventListener('loadedmetadata', () => {
+      notice.classList.remove('show');
+    });
+
+    // 点击画面可暂停/继续
+    video.addEventListener('click', () => {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+  </script>
+</body>
+</html>
