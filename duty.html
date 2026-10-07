@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>值班记录 - 资中县第二中学 · 校园网</title>
 <link rel="stylesheet" href="style.css">
-<!-- 水塔铁梯共 46 级（1982 年施工记录） -->
+<!-- 水塔铁梯共 46 级（1984 年施工记录） -->
 </head>
 <body>
 
@@ -15,17 +15,19 @@
     <div class="logo">二中</div>
     <div class="banner-text">
       <h1>资中县第二中学 · 校园网</h1>
-      <div class="sub">建站于 2003 年 3 月　│　最佳分辨率 800×600　│　IE5.5 以上浏览</div>
+      <div class="sub">建站于 2003 年 3 月　│　建议 IE5.5 以上、800×600 浏览</div>
     </div>
   </div>
 
   <div class="nav">
-    <a href="index.html">学校概况</a>
+    <a href="index.html">首页</a>
+    <a href="about.html">学校概况</a>
+    <a href="news.html">校园新闻</a>
     <a href="notice.html" class="current">通知公告</a>
-    <a href="#" onclick="alert('校园影像栏目图床故障，正在抢修。\n（2003 年 4 月起）');return false;">校园影像</a>
-    <a href="#" onclick="alert('值日表数据已并入水塔水位监测系统。\n请联系总务处。');return false;">值日表</a>
-    <a href="#" onclick="alert('信箱已停用（2003 年 4 月）');return false;">校长信箱</a>
-    <a href="404.html">联系我们</a>
+    <a href="images.html">校园影像</a>
+    <a href="map.html">校园平面图</a>
+    <a href="names.html">值日表</a>
+    <a href="contact.html">校长信箱</a>
   </div>
 
   <div class="content">
@@ -36,7 +38,7 @@
       <div>总务处值班日志　│　录入员：王守义　│　录入日期：2003-04-08</div>
       <div class="dim">────────────────────────────────────────────</div>
 
-      <table>
+      <table id="dutyTable">
         <tr>
           <th style="width:90px;">日期</th>
           <th style="width:110px;">值班人</th>
@@ -48,7 +50,7 @@
         <tr><td>04-04</td><td>王守义</td><td>正常</td></tr>
         <tr><td>04-05</td><td>王守义</td><td>正常</td></tr>
         <tr><td>04-06</td><td>王守义</td><td>正常</td></tr>
-        <tr>
+        <tr id="row0407">
           <td>04-07</td>
           <td class="dim">（空白）</td>
           <td class="dim">（空白</td>
@@ -60,10 +62,18 @@
       <div class="dim" style="margin-top:8px;">
         本表由 2003 年 4 月录入。后续记录已并入水塔水位监测系统。
       </div>
+      <div class="dim" style="text-align:right;font-size:11px;">[4-6]</div>
     </div>
 
-    <div class="hint" style="font-family:'楷体',KaiTi,serif;font-size:12px;">
-      4 月 7 日夜里，水位计读数一直往下掉，可那天没有用水。
+    <div class="hint" style="font-family:'楷体',KaiTi,serif;font-size:12px;line-height:2;">
+      4 月 7 日夜里，水位计读数一直往下掉，可那天没有用水。<br>
+      我去看了。表是好的。<br>
+      <b>上面有人在放水。</b>
+    </div>
+
+    <div class="hint" style="font-size:11px;">
+      备注：水塔铁梯 46 级。值班室手册第 1 条：接班人到齐后方可离岗。
+      <a href="manual.html">［查看手册全文］</a>
     </div>
 
     <h3 class="sub">口令验证</h3>
@@ -74,12 +84,12 @@
     <div id="msg" style="margin-top:8px;font-size:12px;"></div>
     <div id="extra" style="margin-top:6px;font-size:11px;color:#806000;"></div>
 
-    <a class="back" href="notice_2003.html">← 返回上一页</a>
+    <a class="back" href="login.html">← 返回上一页</a>
 
   </div>
 
   <div class="footer">
-    © 2003 资中县第二中学　网络中心制　IE5.5 以上浏览<br>
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
     <span class="disclaimer">
       本页面为虚构创作，与现实中的任何学校、个人、事件无关。
     </span>
@@ -100,29 +110,50 @@ function checkPass() {
   if (v === '20030407') {
     msg.style.color = '#008000';
     msg.textContent = '口令正确，正在进入水塔水位监测系统……';
-    setTimeout(function () {
-      location.href = 'admin.html';
-    }, 800);
+    unlockAch('a03');
+    setTimeout(function () { location.href = 'admin.html'; }, 800);
+    return;
+  }
+
+  // 备用码 462316（输错三次后接受）
+  if (v === '462316' && wrongCount >= 3) {
+    msg.style.color = '#008000';
+    msg.textContent = '备用码通过，正在进入……';
+    unlockAch('a03');
+    setTimeout(function () { location.href = 'admin.html'; }, 800);
     return;
   }
 
   wrongCount++;
   msg.style.color = '#cc0000';
+
   if (v === '') {
     msg.textContent = '请输入口令。';
-  } else {
-    msg.textContent = '口令不正确。（第 ' + wrongCount + ' 次）';
+    return;
   }
 
-  // 输错两次后追加提示
-  if (wrongCount >= 2) {
+  // 递进提示
+  if (wrongCount === 1) {
+    msg.textContent = '口令不正确。（第 1 次）';
+  } else if (wrongCount === 2) {
+    msg.textContent = '口令不正确。（第 2 次）';
     extra.textContent = '提示：就是 4 月 7 日那一天。';
+  } else {
+    msg.textContent = '口令不正确。（第 3 次）';
+    extra.textContent = '备用码：铁梯 ＋ 分机。';
+    // 04-07 行闪烁
+    var row = document.getElementById('row0407');
+    if (row) {
+      row.style.animation = 'blink 0.8s step-end infinite';
+    }
   }
 }
 
 document.getElementById('pass').addEventListener('keydown', function (e) {
   if (e.key === 'Enter') checkPass();
 });
+
+markPage('duty');
 </script>
 </body>
 </html>

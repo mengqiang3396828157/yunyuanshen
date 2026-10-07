@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>校园新闻 - 资中县第二中学 · 校园网</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="banner">
+    <div class="logo">二中</div>
+    <div class="banner-text">
+      <h1>资中县第二中学 · 校园网</h1>
+      <div class="sub">建站于 2003 年 3 月　│　建议 IE5.5 以上、800×600 浏览</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="about.html">学校概况</a>
+    <a href="news.html" class="current">校园新闻</a>
+    <a href="notice.html">通知公告</a>
+    <a href="images.html">校园影像</a>
+    <a href="map.html">校园平面图</a>
+    <a href="names.html">值日表</a>
+    <a href="contact.html">校长信箱</a>
+  </div>
+
+  <div class="content">
+
+    <h2 class="section">我校举行春季消防安全演练</h2>
+    <p class="noindent" style="font-size:11px;color:#888;">
+      发布日期：2003-04-07　│　来源：校办　│　浏览：87 次
+    </p>
+
+    <p>
+      为增强全校师生的消防安全意识，提高应急疏散能力，4 月 7 日下午，
+      我校组织全体师生开展了一次春季消防安全演练。演练内容包括火警报警、
+      紧急疏散、初期火灾扑救等环节。
+    </p>
+    <p>
+      下午 15 时整，随着警报声响起，各班学生在班主任的引导下，按照预定路线
+      迅速、有序地撤离到操场集合。整个过程用时 2 分 40 秒，达到了预期效果。
+    </p>
+    <p>
+      演练结束后，总务处周德明同志照例上塔检查水位计。
+    </p>
+    <p>
+      校领导在总结讲话中指出，安全工作无小事，各部门要时刻绷紧安全这根弦，
+      把各项安全措施落到实处，为师生营造一个安全、和谐的校园环境。
+    </p>
+
+    <hr style="border:none;border-top:1px solid #ccc;margin:14px 0;">
+
+    <p class="noindent" style="color:#888;font-size:12px;">
+      <span style="display:inline-block;width:10px;height:10px;border:2px solid #ccc;border-top-color:#1B4B8F;border-radius:50%;animation:spin 1s linear infinite;vertical-align:middle;"></span>
+      正在加载更多新闻……
+    </p>
+    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+
+    <h2 class="section" style="margin-top:24px;">校歌</h2>
+    <div class="musicbox">
+      <div class="title">资中县第二中学校歌（试听片段）</div>
+      <button onclick="playSong(false)">▶ 播放</button>
+      <button onclick="playSong(true)">◀ 倒放</button>
+      <canvas id="waveCanvas" width="600" height="60"></canvas>
+      <div id="songMsg" style="font-size:11px;color:#888;margin-top:6px;">
+        提示：有些话，要倒过来才听得见。
+      </div>
+    </div>
+
+    <a class="back" href="index.html">← 返回首页</a>
+
+  </div>
+
+  <div class="footer">
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
+    <span class="disclaimer">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </span>
+  </div>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+// 简谱：1 2 3 5 6 5 3 2（C 大调）
+var NOTES = [262, 294, 330, 392, 440, 392, 330, 294];
+var actx = null;
+
+function getCtx() {
+  if (!actx) {
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    actx = new AC();
+  }
+  if (actx.state === 'suspended') actx.resume();
+  return actx;
+}
+
+function playSong(reverse) {
+  var ctx = getCtx();
+  var msg = document.getElementById('songMsg');
+
+  if (!ctx) {
+    msg.innerHTML = '<span style="color:#cc0000;">' +
+      '韽響齾龗钃鸜麷鞻韾響頀鼊齺圞虋钀鱻麤龘纞靐</span>' +
+      '<br>（本机不支持音频播放。提示：把这首歌倒过来听。）';
+    return;
+  }
+
+  var seq = reverse ? NOTES.slice().reverse() : NOTES;
+  var t = ctx.currentTime + 0.05;
+
+  for (var i = 0; i < seq.length; i++) {
+    var osc = ctx.createOscillator();
+    var g = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = seq[i];
+    g.gain.setValueAtTime(0, t + i * 0.45);
+    g.gain.linearRampToValueAtTime(0.18, t + i * 0.45 + 0.05);
+    g.gain.exponentialRampToValueAtTime(0.001, t + i * 0.45 + 0.40);
+    osc.connect(g);
+    g.connect(ctx.destination);
+    osc.start(t + i * 0.45);
+    osc.stop(t + i * 0.45 + 0.45);
+  }
+
+  drawWave(reverse);
+
+  if (reverse) {
+    unlockAch('a12');
+    msg.innerHTML = '<span style="color:#cc0000;font-weight:bold;">' +
+      '别上来</span>　（波形里的话）';
+  } else {
+    msg.textContent = '正在播放……';
+    setTimeout(function () { msg.textContent = '提示：有些话，倒过来才听得见。'; }, 4000);
+  }
+}
+
+// 画波形
+function drawWave(reverse) {
+  var c = document.getElementById('waveCanvas');
+  if (!c) return;
+  var ctx2 = c.getContext('2d');
+  var W = c.width, H = c.height;
+  ctx2.clearRect(0, 0, W, H);
+  ctx2.fillStyle = '#fff';
+  ctx2.fillRect(0, 0, W, H);
+  ctx2.strokeStyle = '#1B4B8F';
+  ctx2.lineWidth = 1.5;
+  ctx2.beginPath();
+
+  var n = reverse ? 8 : 8;
+  for (var x = 0; x < W; x++) {
+    var amp = Math.sin(x / W * Math.PI * n) * (H / 2 - 6);
+    // 倒放时波形包络反相，形成"别上来"的视觉
+    if (reverse) amp = Math.abs(amp) * (x / W < 0.5 ? 1 : -0.6);
+    var y = H / 2 + amp;
+    if (x === 0) ctx2.moveTo(x, y); else ctx2.lineTo(x, y);
+  }
+  ctx2.stroke();
+
+  if (reverse) {
+    ctx2.fillStyle = '#cc0000';
+    ctx2.font = 'bold 13px 宋体';
+    ctx2.fillText('别  上  来', W / 2 - 34, H / 2 + 5);
+  }
+}
+
+markPage('news');
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用户登录 - 资中县第二中学 · 校园网</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="banner">
+    <div class="logo">二中</div>
+    <div class="banner-text">
+      <h1>资中县第二中学 · 校园网</h1>
+      <div class="sub">建站于 2003 年 3 月　│　建议 IE5.5 以上、800×600 浏览</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="about.html">学校概况</a>
+    <a href="news.html">校园新闻</a>
+    <a href="notice.html" class="current">通知公告</a>
+    <a href="images.html">校园影像</a>
+    <a href="map.html">校园平面图</a>
+    <a href="names.html">值日表</a>
+    <a href="contact.html">校长信箱</a>
+  </div>
+
+  <div class="content">
+
+    <h2 class="section">用户登录</h2>
+    <p class="noindent" style="font-size:11px;color:#888;">
+      本站口令于 2003 年 4 月由总务处重置。
+    </p>
+
+    <table class="old" style="width:auto;">
+      <tr>
+        <td style="width:80px;background:#eef4fb;">用户名</td>
+        <td><input type="text" id="user" autocomplete="off" style="width:160px;"></td>
+      </tr>
+      <tr>
+        <td style="background:#eef4fb;">口　令</td>
+        <td><input type="password" id="pass" autocomplete="off" style="width:160px;"></td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align:right;">
+          <button onclick="doLogin()">登 录</button>
+          <a href="#" onclick="alert('请到水塔值班室登记。');return false;" style="font-size:11px;margin-left:8px;">忘记口令？</a>
+        </td>
+      </tr>
+    </table>
+
+    <div id="msg" style="margin-top:10px;font-size:12px;"></div>
+    <div id="zdezBox" style="margin-top:10px;font-size:12px;"></div>
+
+    <div class="hint" style="margin-top:16px;">
+      提示：口令就是那页里唯一没坏的两个字。
+    </div>
+
+    <a class="back" href="notice_2003.html">← 返回上一页</a>
+
+  </div>
+
+  <div class="footer">
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
+    <span class="disclaimer">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </span>
+  </div>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+function doLogin() {
+  var u = document.getElementById('user').value.trim();
+  var p = document.getElementById('pass').value.trim();
+  var msg = document.getElementById('msg');
+  var zbox = document.getElementById('zdezBox');
+
+  // 隐藏入口：用户名 zdez
+  if (u === 'zdez') {
+    zbox.innerHTML =
+      '<span style="color:#cc0000;">该账号自 2013 年起无登录权限。</span><br>' +
+      '<a href="tearecord.html" style="font-size:11px;">［查看该账号最后的对话］</a>';
+    return;
+  }
+
+  // 第一层口令：二中
+  if (p === '二中') {
+    msg.style.color = '#008000';
+    msg.textContent = '口令正确，正在进入值班记录……';
+    unlockAch('a02');
+    setTimeout(function () { location.href = 'duty.html'; }, 700);
+    return;
+  }
+
+  msg.style.color = '#cc0000';
+  msg.textContent = p === '' ? '请输入口令。' : '口令不正确，请向总务处索取。';
+}
+
+document.getElementById('pass').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+markPage('login');
+</script>
+</body>
+</html>

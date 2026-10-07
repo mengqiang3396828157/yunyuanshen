@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>校园影像 - 资中县第二中学 · 校园网</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="banner">
+    <div class="logo">二中</div>
+    <div class="banner-text">
+      <h1>资中县第二中学 · 校园网</h1>
+      <div class="sub">建站于 2003 年 3 月　│　建议 IE5.5 以上、800×600 浏览</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="about.html">学校概况</a>
+    <a href="news.html">校园新闻</a>
+    <a href="notice.html">通知公告</a>
+    <a href="images.html" class="current">校园影像</a>
+    <a href="map.html">校园平面图</a>
+    <a href="names.html">值日表</a>
+    <a href="contact.html">校长信箱</a>
+  </div>
+
+  <div class="content">
+
+    <h2 class="section">校园影像（文字存档）</h2>
+    <p class="noindent" style="font-size:11px;color:#888;">
+      图床故障，图片无法显示。以下为图片的文字说明存档。
+    </p>
+
+    <div class="photo">
+      <div class="frame">
+        <div class="windows" id="winGrid"></div>
+      </div>
+      <div class="caption">
+        图 1：水塔外观（1996 年 摄）<br>
+        文件名：IMG_20030407_3-1.jpg
+      </div>
+    </div>
+    <p class="noindent" style="font-size:11px;color:#888;">
+      说明：塔身共三层平台，每层设窗格。顶层窗格在整面墙的第八个位置，
+      该窗长期关闭，玻璃呈深色。
+    </p>
+
+    <div class="photo">
+      <div class="frame" style="height:90px;">
+        <span style="color:#999;">图片无法显示</span>
+      </div>
+      <div class="caption">
+        图 2：教学楼全景（2001 年 摄）<br>
+        文件名：IMG_2001_JXL.jpg
+      </div>
+    </div>
+
+    <div class="photo">
+      <div class="frame" style="height:90px;">
+        <span style="color:#999;">图片无法显示</span>
+      </div>
+      <div class="caption">
+        图 3：校运会合影（2009 年 摄）<br>
+        文件名：IMG_2009_SPORT.jpg<br>
+        <span style="color:#aaa;">（西北角水塔窗边，似乎有一个很小的影子。）</span>
+      </div>
+    </div>
+
+    <div class="hint">
+      注：图 1 的拍摄时间与公告编号相同，均为 2003-04-07 / 3-1。
+    </div>
+
+    <a class="back" href="index.html">← 返回首页</a>
+
+  </div>
+
+  <div class="footer">
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
+    <span class="disclaimer">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </span>
+  </div>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+// 生成窗户网格：4 列 × 3 行 = 12 格，第八格是顶层那扇关着的窗
+(function () {
+  var grid = document.getElementById('winGrid');
+  var html = '';
+  for (var i = 1; i <= 12; i++) {
+    var cls = 'win';
+    if (i === 8) cls += ' eighth';
+    else if (i % 4 === 0) cls += ' dark';
+    html += '<div class="' + cls + '" title="第 ' + i + ' 格"></div>';
+  }
+  grid.innerHTML = html;
+})();
+
+// 点击第八格解锁成就
+document.getElementById('winGrid').addEventListener('click', function (e) {
+  if (e.target.classList.contains('eighth')) {
+    unlockAch('a08');
+    alert('第八个窗格。玻璃是深色的，看不清里面。');
+  }
+});
+
+markPage('images');
+</script>
+</body>
+</html>

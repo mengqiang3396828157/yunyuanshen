@@ -28,7 +28,7 @@
     <div class="line speak" style="animation-delay:11.4s;">"先登记。"</div>
 
     <div class="line sys" style="animation-delay:13.0s;margin-top:26px;">
-      ——请在下方输入你的名字。
+      ——请输入你的名字。
     </div>
 
     <div class="line" style="animation-delay:13.4s;margin-top:10px;">
@@ -38,32 +38,53 @@
               style="background:#1a1a1a;color:#c8c8c8;border:1px solid #444;font-family:'宋体',SimSun,serif;font-size:13px;padding:4px 14px;cursor:pointer;">登记</button>
     </div>
 
+    <div id="choiceBox" style="display:none;margin-top:16px;">
+      <button onclick="endingF()"
+              style="background:#1a1a1a;color:#ffcc00;border:1px solid #ffcc00;font-family:'宋体',SimSun,serif;font-size:13px;padding:6px 18px;cursor:pointer;">
+        我不能留下
+      </button>
+    </div>
+
     <div id="result" style="margin-top:22px;"></div>
+
+    <div style="margin-top:60px;text-align:center;font-size:10px;color:#333;font-family:'宋体',SimSun,serif;">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </div>
 
   </div>
 </div>
 
 <script src="common.js"></script>
 <script>
+// 读过工单 → 显示真结局选项
+if (lsGet('tearecord', '0') === '1') {
+  document.getElementById('choiceBox').style.display = 'block';
+}
+
 function submitName() {
   var name = document.getElementById('nameInput').value.trim();
-  if (!name) {
-    alert('请先登记名字。');
+  if (!name) { alert('请先登记名字。'); return; }
+
+  // 结局 C：输入"周德明"或 zdez
+  if (name === '周德明' || name === 'zdez') {
+    endingC();
     return;
   }
 
+  // 结局 B：普通登记
+  endingB(name);
+}
+
+// 结局 B：上塔登记
+function endingB(name) {
   var result = document.getElementById('result');
+  result.innerHTML =
+    '<div class="line" style="animation-delay:0s;color:#e8e8e8;">值班记录已更新。</div>' +
+    '<div class="line" style="animation-delay:1.2s;color:#e8e8e8;">' +
+    escapeHtml(name) + '，2003 年 4 月 7 日 23 点 16 分，上塔。</div>';
 
-  // 生成值班记录行
-  var html = '';
-  html += '<div class="line" style="animation-delay:0s;color:#e8e8e8;">值班记录已更新。</div>';
-  html += '<div class="line" style="animation-delay:1.2s;color:#e8e8e8;">';
-  html += escapeHtml(name) + '，2003 年 4 月 7 日 23 点 16 分，上塔。';
-  html += '</div>';
+  unlockAch('a15');
 
-  result.innerHTML = html;
-
-  // 5 秒后彻底黑掉，只剩微弱光标
   setTimeout(function () {
     document.getElementById('finale').innerHTML =
       '<div style="height:70vh;"></div>' +
@@ -71,6 +92,51 @@ function submitName() {
       '<span class="cursor" style="background:#333;width:6px;height:12px;"></span>' +
       '</div>';
   }, 6000);
+}
+
+// 结局 C：他就是周德明
+function endingC() {
+  var result = document.getElementById('result');
+  result.innerHTML =
+    '<div class="line" style="color:#e8e8e8;">你把名字输了进去。</div>' +
+    '<div class="line" style="color:#e8e8e8;animation-delay:1.2s;">屏幕上的光标停了。</div>' +
+    '<div class="line" style="animation-delay:2.6s;">&nbsp;</div>' +
+    '<div class="line" style="animation-delay:3.0s;">他拧螺丝的手停了。</div>' +
+    '<div class="line" style="animation-delay:4.2s;">然后他慢慢地、很慢地回过头来。</div>' +
+    '<div class="line" style="animation-delay:5.4s;">天台的风重新开始了。</div>' +
+    '<div class="line" style="animation-delay:6.8s;">&nbsp;</div>' +
+    '<div class="line speak" style="animation-delay:7.2s;">"……你替我把这个拧完。"</div>' +
+    '<div class="line speak" style="animation-delay:8.6s;">"我下去看看。"</div>' +
+    '<div class="line" style="animation-delay:10.0s;">&nbsp;</div>' +
+    '<div class="line" style="animation-delay:10.4s;color:#ffcc00;">仪表盘上的数字动了。</div>' +
+    '<div class="line" style="animation-delay:11.6s;color:#ffcc00;">2003 年 4 月 7 日 23 点 17 分。</div>';
+
+  unlockAch('a16');
+}
+
+// 结局 F：真结局
+function endingF() {
+  var result = document.getElementById('result');
+  result.innerHTML =
+    '<div class="line" style="color:#e8e8e8;">"我不能留下。"</div>' +
+    '<div class="line" style="color:#e8e8e8;animation-delay:1.2s;">"我把你的班交给全部人。"</div>';
+
+  unlockAch('a18');
+
+  setTimeout(function () {
+    var w = document.createElement('div');
+    w.className = 'whitescreen';
+    w.innerHTML =
+      '<div>交接完成。</div>' +
+      '<div style="margin-top:14px;">值班表已归档至 2003 年 4 月 7 日。</div>';
+    document.body.appendChild(w);
+
+    lsSet('finished', '1');
+
+    setTimeout(function () {
+      location.href = 'oldpost.html';
+    }, 3200);
+  }, 2600);
 }
 
 function escapeHtml(s) {
@@ -82,6 +148,8 @@ function escapeHtml(s) {
 document.getElementById('nameInput').addEventListener('keydown', function (e) {
   if (e.key === 'Enter') submitName();
 });
+
+markPage('top');
 </script>
 </body>
 </html>

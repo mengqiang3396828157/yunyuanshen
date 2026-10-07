@@ -512,3 +512,340 @@ button:active, input[type="submit"]:active {
   margin: 18px 0;
   line-height: 2.2;
 }
+
+/* ==========================================================
+   v3 扩展组件
+   ========================================================== */
+
+/* ===== 成就浮层 ===== */
+#achBar {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  background: #ffffe0;
+  border: 1px solid #c0a000;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: #806000;
+  cursor: pointer;
+  z-index: 100;
+  font-family: "宋体", SimSun, serif;
+}
+
+#achBar:hover {
+  background: #ffffc0;
+}
+
+#achPanel {
+  position: fixed;
+  right: 12px;
+  bottom: 44px;
+  width: 300px;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: #fff;
+  border: 2px solid #1B4B8F;
+  padding: 10px 12px;
+  z-index: 101;
+  display: none;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+#achPanel.show {
+  display: block;
+}
+
+#achPanel h4 {
+  font-size: 13px;
+  color: #1B4B8F;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+  margin-bottom: 6px;
+}
+
+.ach-item {
+  font-size: 11px;
+  padding: 3px 0;
+  color: #999;
+  border-bottom: 1px dotted #eee;
+}
+
+.ach-item.got {
+  color: #006600;
+  font-weight: bold;
+}
+
+.ach-item.got::before {
+  content: "★ ";
+  color: #c0a000;
+}
+
+.ach-item:not(.got)::before {
+  content: "☆ ";
+  color: #ccc;
+}
+
+/* 成就解锁提示 */
+#achToast {
+  position: fixed;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%) translateY(-80px);
+  background: #1B4B8F;
+  color: #ffd700;
+  padding: 8px 20px;
+  font-size: 12px;
+  border: 2px solid #ffd700;
+  z-index: 200;
+  opacity: 0;
+  transition: all 0.4s;
+  font-family: "宋体", SimSun, serif;
+}
+
+#achToast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ===== 年表 ===== */
+table.timeline td:first-child {
+  width: 70px;
+  color: #1B4B8F;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+table.timeline tr.key td {
+  background: #fff8d0;
+}
+
+table.timeline tr.key td:first-child {
+  color: #cc0000;
+}
+
+/* ===== 图注 / 照片框 ===== */
+.photo {
+  border: 1px solid #a0a0a0;
+  background: #f0f0f0;
+  padding: 6px;
+  margin: 10px 0;
+}
+
+.photo .frame {
+  background: #d8d8d8;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 11px;
+  position: relative;
+  overflow: hidden;
+}
+
+.photo .caption {
+  font-size: 11px;
+  color: #666;
+  margin-top: 5px;
+  font-family: "Courier New", monospace;
+}
+
+/* 照片里的窗户网格（顶层第八格） */
+.windows {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  padding: 8px;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+}
+
+.windows .win {
+  height: 14px;
+  background: #b8c8d8;
+  border: 1px solid #8898a8;
+}
+
+.windows .win.dark {
+  background: #2a3038;
+}
+
+.windows .win.eighth {
+  background: #1a1a1a;
+  border-color: #cc0000;
+}
+
+/* ===== 音乐盒 ===== */
+.musicbox {
+  border: 2px solid #1B4B8F;
+  background: #eef4fb;
+  padding: 10px;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.musicbox .title {
+  font-size: 12px;
+  color: #1B4B8F;
+  margin-bottom: 8px;
+}
+
+#waveCanvas {
+  width: 100%;
+  height: 60px;
+  background: #fff;
+  border: 1px solid #a0a0a0;
+  display: block;
+  margin-top: 8px;
+}
+
+/* ===== 搜索框 ===== */
+.searchbar {
+  background: #eef4fb;
+  border: 1px solid #b0c8e0;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+/* ===== 工单 / 聊天记录 ===== */
+.ticket {
+  border: 1px solid #c0c0c0;
+  background: #fff;
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 2;
+  margin: 10px 0;
+}
+
+.ticket .meta {
+  color: #888;
+  font-size: 11px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.ticket .who {
+  color: #1B4B8F;
+  font-weight: bold;
+}
+
+.ticket .sys {
+  color: #888;
+}
+
+.ticket .revoked {
+  color: #cc0000;
+  font-style: italic;
+}
+
+/* ===== 手册 ===== */
+.manual {
+  background: #fdfcf5;
+  border: 1px solid #c8c0a0;
+  padding: 16px 20px;
+  font-family: "宋体", SimSun, serif;
+  font-size: 13px;
+  line-height: 2.2;
+  margin: 10px 0;
+}
+
+.manual .rule {
+  margin-bottom: 10px;
+}
+
+.manual .rule.key {
+  background: #fff8d0;
+  border-left: 3px solid #cc0000;
+  padding: 6px 10px;
+  font-weight: bold;
+}
+
+.manual .stamp {
+  text-align: right;
+  color: #cc0000;
+  border: 2px solid #cc0000;
+  display: inline-block;
+  padding: 4px 10px;
+  transform: rotate(-8deg);
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+/* ===== 结局白屏 ===== */
+.whitescreen {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 300;
+  font-family: "宋体", SimSun, serif;
+  font-size: 15px;
+  line-height: 2.4;
+  text-align: center;
+  padding: 30px;
+}
+
+/* ===== 名单表（观察者） ===== */
+table.names td:first-child {
+  width: 90px;
+  white-space: nowrap;
+}
+
+table.names td:nth-child(2) {
+  width: 110px;
+}
+
+table.names tr.empty td {
+  color: #aaa;
+}
+
+table.names tr.zhou td:nth-child(2) {
+  color: #1B4B8F;
+}
+
+/* 截断文字 */
+.truncated {
+  position: relative;
+  cursor: pointer;
+  border-bottom: 1px dotted #999;
+}
+
+.truncated:hover::after {
+  content: attr(data-full);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  background: #ffffe0;
+  border: 1px solid #c0a000;
+  padding: 4px 8px;
+  white-space: nowrap;
+  z-index: 50;
+  font-size: 11px;
+  color: #806000;
+}
+
+/* ===== 平面图楼层编号 ===== */
+.floor-num {
+  font-size: 10px;
+  color: #888;
+  margin-top: 3px;
+  font-family: "Courier New", monospace;
+}
+
+/* ===== 隐藏页提示 ===== */
+.unlisted {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  color: #856404;
+  padding: 6px 10px;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+

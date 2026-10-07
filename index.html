@@ -6,7 +6,7 @@
 <title>资中县第二中学 · 校园网</title>
 <link rel="stylesheet" href="style.css">
 <!--
-  目前访问间隔参考值 2-8-
+  访问间隔参考值 2-8-
   （网络中心 2003-04 备注，勿删）
 -->
 </head>
@@ -14,44 +14,44 @@
 
 <div class="page">
 
-  <!-- 顶部横幅 -->
   <div class="banner">
     <div class="logo">二中</div>
     <div class="banner-text">
       <h1>资中县第二中学 · 校园网</h1>
-      <div class="sub">建站于 2003 年 3 月　│　最佳分辨率 800×600　│　IE5.5 以上浏览</div>
+      <div class="sub">建站于 2003 年 3 月　│　建议 IE5.5 以上、800×600 浏览</div>
     </div>
   </div>
 
-  <!-- 导航 -->
   <div class="nav">
-    <a href="index.html" class="current">学校概况</a>
+    <a href="index.html" class="current">首页</a>
+    <a href="about.html">学校概况</a>
+    <a href="news.html">校园新闻</a>
     <a href="notice.html">通知公告</a>
-    <a href="#" onclick="alert('校园影像栏目图床故障，正在抢修。\n（2003 年 4 月起）');return false;">校园影像</a>
-    <a href="#" onclick="alert('值日表数据已并入水塔水位监测系统。\n请联系总务处。');return false;">值日表</a>
-    <a href="#" onclick="alert('信箱已停用（2003 年 4 月）');return false;">校长信箱</a>
-    <a href="404.html">联系我们</a>
+    <a href="images.html">校园影像</a>
+    <a href="map.html">校园平面图</a>
+    <a href="names.html">值日表</a>
+    <a href="contact.html">校长信箱</a>
   </div>
 
-  <!-- 滚动公告 -->
   <div class="marquee-bar">
-    <div class="marquee-inner">
-      【总务处】水塔顶增设水位监测装置，施工延期，请勿靠近。　　│　　【教务处】关于 2003 年元旦文艺晚会节目征集的通知　　│　　【网络中心】本站启用新域名，老用户请重新登录。　　│　　【总务处】水塔顶增设水位监测装置，施工延期，请勿靠近。
+    <div class="marquee-inner" id="marqueeInner">
+      【总务处】水塔顶增设水位监测装置，施工延期，请勿靠近。
+      <span id="marqueeExtra"></span>
+      　│　　【教务处】关于元旦文艺晚会节目征集的通知　　│　　【网络中心】本站启用新域名，老用户请重新登录。　　│　　【总务处】水塔顶增设水位监测装置，施工延期，请勿靠近。
     </div>
   </div>
 
-  <!-- 正文 -->
   <div class="content">
 
     <h2 class="section">学校简介</h2>
     <p>
-      资中县第二中学创建于 1956 年，位于县城西北，占地约 60 亩。现有教学班 32 个，
+      资中县第二中学创建于 1957 年，位于县城西北，占地约 60 亩。现有教学班 32 个，
       在校学生 1800 余人，教职工 140 人。学校坚持"厚德、博学、笃行"的校训，
       多年来为高等院校输送了大批合格新生。
     </p>
     <p>
       校园内设有教学楼、实验楼、学生宿舍、食堂、操场及库房等设施。
-      学校西北角的水塔建于 1982 年，是全校供水的重要设施，也是历届学生合影的取景地。
+      学校西北角的水塔建成于 1984 年，塔高 22 米，是我校建校初期的标志性建筑。
     </p>
 
     <h3 class="sub">校园平面示意图</h3>
@@ -68,15 +68,18 @@
       </div>
       <div class="map-row">
         <div class="map-cell" style="flex:2;">门卫室 / 正门</div>
-        <div class="map-cell tower">水塔</div>
+        <a class="map-cell tower" href="map.html" style="text-decoration:none;">水塔</a>
       </div>
     </div>
     <p class="noindent" style="font-size:11px;color:#888;">
-      （示意图由网络中心绘制，比例仅供参考。水塔位置已标注。）
+      （示意图由网络中心绘制，比例仅供参考。点击水塔可查看详图。）
     </p>
 
     <h3 class="sub">校园风光</h3>
-    <div class="broken-img">图片无法显示（图床故障，2003 年 4 月起）</div>
+    <div class="broken-img">
+      图片无法显示（图床故障，2003 年 4 月起）
+      <br><a href="images.html" style="font-size:11px;">［查看影像页文字存档］</a>
+    </div>
 
     <h3 class="sub">本站统计</h3>
     <div class="counter">
@@ -95,9 +98,8 @@
 
   </div>
 
-  <!-- 页脚 -->
   <div class="footer">
-    © 2003 资中县第二中学　网络中心制　IE5.5 以上浏览<br>
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
     <span class="disclaimer">
       本页面为虚构创作，与现实中的任何学校、个人、事件无关。
     </span>
@@ -107,16 +109,46 @@
 
 <script src="common.js"></script>
 <script>
-// 结局 A 反馈：从 admin 返回时，今日访问 +1
 (function () {
+  // 首次访问成就
+  unlockAch('a01');
+
+  // 回访记忆
+  var rv = checkReturnVisit();
+  if (rv.isReturn) {
+    var n = 2;
+    document.getElementById('visitCount').textContent = n;
+    document.getElementById('visitNote').textContent = '（你昨天看到这里了）';
+    unlockAch('a20');
+  }
+
+  // 结局 A 返回：今日访问 +1
   var params = new URLSearchParams(location.search);
   if (params.get('closed') === '1') {
-    var n = 1;
-    try { n = parseInt(localStorage.getItem('zz2z_visits') || '2', 10); } catch (e) {}
-    if (n < 2) n = 2;
-    document.getElementById('visitCount').textContent = n;
+    document.getElementById('visitCount').textContent = '2';
     document.getElementById('visitNote').textContent = '已有两人查看。';
+    unlockAch('a14');
   }
+
+  // 结局 F 返回：首页 404
+  if (lsGet('finished', '0') === '1') {
+    document.body.innerHTML =
+      '<div style="text-align:center;padding:60px 20px;font-family:宋体,SimSun,serif;">' +
+      '<div style="font-size:48px;color:#cc0000;font-weight:bold;letter-spacing:4px;">404</div>' +
+      '<div style="margin-top:20px;font-size:14px;line-height:2.2;">' +
+      '您要访问的页面不存在。<br>本站已归档。</div>' +
+      '<div style="margin-top:20px;"><a href="oldpost.html">［查看缓存］</a></div>' +
+      '</div>';
+    return;
+  }
+
+  // 4 月 7 日彩蛋
+  if (isApril7()) {
+    document.getElementById('marqueeExtra').textContent = '　│　　【总务处】今天不用上塔。';
+    unlockAch('a23');
+  }
+
+  markPage('index');
 })();
 </script>
 </body>

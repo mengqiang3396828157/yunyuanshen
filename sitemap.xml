@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  资中县第二中学 · 校园网
+  站点地图（由网络中心自动生成，最后更新 2003-04-09）
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>index.html</loc>
+    <lastmod>2003-04-09</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>about.html</loc>
+    <lastmod>2003-04-09</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>news.html</loc>
+    <lastmod>2003-04-07</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>notice.html</loc>
+    <lastmod>2003-04-08</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>images.html</loc>
+    <lastmod>2003-04-07</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>map.html</loc>
+    <lastmod>2003-04-08</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>names.html</loc>
+    <lastmod>2013-04-07</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>manual.html</loc>
+    <lastmod>1996-05-01</lastmod>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>log.html</loc>
+    <lastmod>2003-04-08</lastmod>
+    <priority>0.4</priority>
+  </url>
+
+  <url>
+    <loc>contact.html</loc>
+    <lastmod>2003-04-09</lastmod>
+    <priority>0.4</priority>
+  </url>
+
+  <!-- 以下页面未在导航中列出 -->
+  <url>
+    <loc>raw.html</loc>
+    <lastmod>2003-04-07</lastmod>
+    <priority>0.1</priority>
+  </url>
+
+</urlset>

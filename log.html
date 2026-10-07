@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>历年值班日志 - 资中县第二中学 · 校园网</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="banner">
+    <div class="logo">二中</div>
+    <div class="banner-text">
+      <h1>资中县第二中学 · 校园网</h1>
+      <div class="sub">建站于 2003 年 3 月　│　建议 IE5.5 以上、800×600 浏览</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="about.html">学校概况</a>
+    <a href="news.html">校园新闻</a>
+    <a href="notice.html">通知公告</a>
+    <a href="images.html">校园影像</a>
+    <a href="map.html">校园平面图</a>
+    <a href="names.html">值日表</a>
+    <a href="contact.html">校长信箱</a>
+  </div>
+
+  <div class="content">
+
+    <h2 class="section">历年值班日志（2004 → 今天）</h2>
+    <p class="noindent" style="font-size:11px;color:#888;">
+      本日志原为纸质，2011 年移交网络中心后转为电子表格，故字体由手写体变为等宽字体。
+    </p>
+
+    <div class="terminal" id="logBox"></div>
+
+    <div class="hint" style="font-size:11px;">
+      规程副本：<a href="manual.html">［水塔值班室手册］</a>
+    </div>
+
+    <a class="back" href="index.html">← 返回首页</a>
+
+  </div>
+
+  <div class="footer">
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
+    <span class="disclaimer">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </span>
+  </div>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+(function () {
+  var lines = [];
+  lines.push('<div class="dim">日期　　　　值班人　　备注</div>');
+  lines.push('<div class="dim">──────────────────────────────────────</div>');
+
+  // 2004–2010：手写体（用楷体模拟）
+  var early = [
+    [2004, '李维', '我不上去了'],
+    [2005, '—', '未安排'],
+    [2006, '—', '未安排'],
+    [2007, '王守义', '键坏了，门打不开'],
+    [2008, '—', '未安排'],
+    [2009, '—', '未安排'],
+    [2010, '—', '未安排']
+  ];
+  for (var i = 0; i < early.length; i++) {
+    var e = early[i];
+    lines.push('<div style="font-family:楷体,KaiTi,serif;">' +
+      e[0] + '　　　　' + e[1] + '　　　　' + e[2] + '</div>');
+  }
+
+  lines.push('<div class="dim">──── 以下为电子表格 ────</div>');
+
+  // 2011–2023：每年一模一样的一行
+  for (var y = 2011; y <= 2023; y++) {
+    var note = (y === 2013) ? '陈敏　上去过一次' : '—　　未安排';
+    lines.push('<div>' + y + '　　　　' + note + '</div>');
+  }
+
+  // 今天
+  lines.push('<div class="danger">' + new Date().getFullYear() +
+    '　　　　—　　未安排　　<span class="dim">（今日）</span></div>');
+
+  document.getElementById('logBox').innerHTML = lines.join('');
+
+  // 滚到底部解锁成就
+  window.addEventListener('scroll', function () {
+    var doc = document.documentElement;
+    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 60) {
+      unlockAch('a07');
+    }
+  });
+})();
+
+markPage('log');
+</script>
+</body>
+</html>

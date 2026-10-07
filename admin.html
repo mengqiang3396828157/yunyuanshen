@@ -52,22 +52,29 @@
       <div class="dim">────────────────────────────────────────────────────────</div>
 
       <div style="margin-top:12px;">
-        <span class="redacted" id="secret" onclick="revealSecret()">
+        <span class="redacted" id="secret">
           「值班交接未完成。周德明同志仍在塔上，请下一位值班人上去接替他。」
         </span>
       </div>
-      <div class="redacted-hint" id="secretHint">（该行已加密。输入解密口令后可查看）</div>
+      <div class="redacted-hint" id="secretHint">（该行已加密。输入校验码后可查看）</div>
 
       <div style="margin-top:10px;">
-        解密口令：<input type="password" id="secretPass" maxlength="10" autocomplete="off"
+        校验码：<input type="password" id="secretPass" maxlength="10" autocomplete="off"
                     style="background:#111;color:#33ff33;border:1px solid #1a5a1a;font-family:'Courier New',monospace;font-size:12px;padding:3px 6px;width:120px;">
         <button onclick="tryReveal()">解密</button>
       </div>
       <div id="secretMsg" style="margin-top:6px;font-size:11px;"></div>
 
       <div style="margin-top:18px;">
-        <button onclick="endA()">关闭日志</button>
-        <button onclick="endB()">前往水塔</button>
+        <label style="color:#33ff33;font-size:12px;cursor:pointer;">
+          <input type="checkbox" id="chkClose"> 关闭日志
+        </label>
+        <label style="color:#33ff33;font-size:12px;cursor:pointer;margin-left:14px;">
+          <input type="checkbox" id="chkGo"> 前往水塔
+        </label>
+        <div style="margin-top:10px;">
+          <button onclick="doSubmit()">执 行</button>
+        </div>
       </div>
     </div>
 
@@ -78,7 +85,7 @@
   </div>
 
   <div class="footer">
-    © 2003 资中县第二中学　网络中心制　IE5.5 以上浏览<br>
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
     <span class="disclaimer">
       本页面为虚构创作，与现实中的任何学校、个人、事件无关。
     </span>
@@ -88,30 +95,21 @@
 
 <script src="common.js"></script>
 <script>
-// 构建日志：历史记录 + 今日一条（动态生成）
 function buildLogs() {
   var logs = [
     { t: '2003-04-07 22:40', acc: '设备 3F-水位计', msg: '数据开始异常', cls: 'warnline' },
-    { t: '2003-04-07 23:04', acc: '设备 3F-水位计', msg: '读数 0.00（无用水）', cls: 'warnline' },
+    { t: '2003-04-07 23:04', acc: '设备 3F-水位计', msg: '读数 0.00（当日无用水记录）', cls: 'warnline' },
     { t: '2003-04-07 23:16', acc: '设备 3F-水位计', msg: '离线', cls: 'danger' },
     { t: '2003-04-07 23:41', acc: '账号 shuita', msg: '创建', cls: '' }
   ];
 
-  // 每年 4 月 7 日 23:11 一条失败登录，直到去年
   var thisYear = new Date().getFullYear();
   for (var y = 2004; y < thisYear; y++) {
-    logs.push({
-      t: y + '-04-07 23:11',
-      acc: '账号 zdez',
-      msg: '登录失败（1/3）',
-      cls: 'dim'
-    });
+    logs.push({ t: y + '-04-07 23:11', acc: '账号 zdez', msg: '登录失败（1/3）', cls: 'dim' });
   }
 
-  // 今天一条：操作人 未知，IP = 访客
-  var today = todayStr();
   logs.push({
-    t: today + ' 23:11',
+    t: todayStr() + ' 23:11',
     acc: '账号 未知',
     msg: '登录成功',
     cls: 'danger',
@@ -129,62 +127,100 @@ function renderLogs() {
     var L = logs[i];
     html += '<div class="' + (L.cls || '') + '">';
     html += L.t + '　' + L.acc + '　' + L.msg;
-    if (L.ip) {
-      html += '　<span class="dim">操作 IP：' + L.ip + '</span>';
-    }
+    if (L.ip) html += '　<span class="dim">操作 IP：' + L.ip + '</span>';
     html += '</div>';
   }
   box.innerHTML = html;
   document.getElementById('logCount').textContent = logs.length;
 }
 
-// 红线揭秘（需第三层密码 283146）
-var secretRevealed = false;
+// 校验码
 function tryReveal() {
   var v = document.getElementById('secretPass').value.trim();
   var msg = document.getElementById('secretMsg');
 
-  // 第三层口令：283146（= 2-8 + 3-1 + 4-6）
+  // 2316：彩蛋码
+  if (v === '2316') {
+    msg.style.color = '#ffcc00';
+    msg.innerHTML = '分机 2316　录音：<span class="dim">"这里是水塔值班室，现在没人。请在滴声后留言。"</span>';
+    unlockAch('a10');
+    return;
+  }
+
+  // 283146：主校验码
   if (v === '283146') {
-    secretRevealed = true;
-    var el = document.getElementById('secret');
-    el.classList.add('revealed');
+    document.getElementById('secret').classList.add('revealed');
     document.getElementById('secretHint').textContent = '（已解密）';
     msg.style.color = '#33ff33';
-    msg.textContent = '解密成功。';
-  } else if (v === '') {
-    msg.style.color = '#ffcc00';
-    msg.textContent = '请输入口令。';
-  } else {
-    msg.style.color = '#ff4444';
-    msg.textContent = '口令不正确。';
+    msg.innerHTML = '解密成功。' +
+      '<br><a href="raw.html" style="color:#66ccff;">［打开设备 3F-水位计 原始数据］</a>';
+    unlockAch('a04');
+    return;
   }
+
+  // 462316：备用码
+  if (v === '462316') {
+    document.getElementById('secret').classList.add('revealed');
+    document.getElementById('secretHint').textContent = '（已解密）';
+    msg.style.color = '#33ff33';
+    msg.innerHTML = '备用码通过。' +
+      '<br><a href="raw.html" style="color:#66ccff;">［打开设备 3F-水位计 原始数据］</a>';
+    return;
+  }
+
+  msg.style.color = '#ff4444';
+  msg.textContent = v === '' ? '请输入校验码。' : '校验码不正确。';
 }
 
 document.getElementById('secretPass').addEventListener('keydown', function (e) {
   if (e.key === 'Enter') tryReveal();
 });
 
-// 结局 A：关闭日志
-function endA() {
+// 结局判定
+function doSubmit() {
+  var close = document.getElementById('chkClose').checked;
+  var go = document.getElementById('chkGo').checked;
   var msg = document.getElementById('endMsg');
-  msg.style.color = '#cc0000';
-  msg.innerHTML = '日志已关闭。正在返回首页……';
-  try {
-    var n = parseInt(localStorage.getItem('zz2z_visits') || '1', 10) + 1;
-    localStorage.setItem('zz2z_visits', String(n));
-  } catch (e) {}
-  setTimeout(function () {
-    location.href = 'index.html?closed=1';
-  }, 1200);
-}
 
-// 结局 B：前往水塔
-function endB() {
-  location.href = 'top.html';
+  if (close && go) {
+    // 结局 E：关闭服务器
+    msg.style.color = '#cc0000';
+    msg.textContent = '正在关闭服务器……';
+    unlockAch('a17');
+    setTimeout(function () {
+      var w = document.createElement('div');
+      w.className = 'whitescreen';
+      w.innerHTML = '<div>值班表已清空。</div>';
+      document.body.appendChild(w);
+      setTimeout(function () {
+        w.remove();
+        location.href = 'index.html';
+      }, 2600);
+    }, 800);
+    return;
+  }
+
+  if (close) {
+    // 结局 A
+    msg.style.color = '#cc0000';
+    msg.textContent = '日志已关闭。正在返回首页……';
+    unlockAch('a14');
+    setTimeout(function () { location.href = 'index.html?closed=1'; }, 1200);
+    return;
+  }
+
+  if (go) {
+    // 结局 B/C/F 入口
+    location.href = 'top.html';
+    return;
+  }
+
+  msg.style.color = '#ffcc00';
+  msg.textContent = '请至少选择一项操作。';
 }
 
 renderLogs();
+markPage('admin');
 </script>
 </body>
 </html>
