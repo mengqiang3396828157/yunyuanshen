@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>水塔水位监测系统 - 内网</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="banner" style="background:linear-gradient(to bottom,#2a2a2a 0%,#111 100%);border-bottom-color:#33ff33;">
+    <div class="logo" style="border-color:#33ff33;color:#33ff33;background:#111;">塔</div>
+    <div class="banner-text">
+      <h1 style="color:#33ff33;">水塔水位监测系统</h1>
+      <div class="sub" style="color:#2a8a2a;">资中二中 · 总务处内网　│　版本 1.0　│　安装于 2003-04-07</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <h2 class="section">设备状态</h2>
+
+    <table class="old">
+      <tr>
+        <th>监测点</th>
+        <th>水位</th>
+        <th>状态</th>
+        <th>上次校准</th>
+      </tr>
+      <tr>
+        <td>3F · 水塔水位计</td>
+        <td><span style="color:#cc0000;font-weight:bold;">--</span></td>
+        <td><span style="color:#cc0000;">离线</span></td>
+        <td>2003-04-07</td>
+      </tr>
+      <tr>
+        <td>在线设备数</td>
+        <td colspan="3">1</td>
+      </tr>
+    </table>
+
+    <h2 class="section" style="margin-top:18px;">系统日志</h2>
+
+    <div class="terminal">
+      <div class="dim">日志按时间正序排列　│　共 <span id="logCount">0</span> 条</div>
+      <div class="dim">────────────────────────────────────────────────────────</div>
+
+      <div id="logBox"></div>
+
+      <div class="dim">────────────────────────────────────────────────────────</div>
+
+      <div style="margin-top:12px;">
+        <span class="redacted" id="secret" onclick="revealSecret()">
+          「值班交接未完成。周德明同志仍在塔上，请下一位值班人上去接替他。」
+        </span>
+      </div>
+      <div class="redacted-hint" id="secretHint">（该行已加密。输入解密口令后可查看）</div>
+
+      <div style="margin-top:10px;">
+        解密口令：<input type="password" id="secretPass" maxlength="10" autocomplete="off"
+                    style="background:#111;color:#33ff33;border:1px solid #1a5a1a;font-family:'Courier New',monospace;font-size:12px;padding:3px 6px;width:120px;">
+        <button onclick="tryReveal()">解密</button>
+      </div>
+      <div id="secretMsg" style="margin-top:6px;font-size:11px;"></div>
+
+      <div style="margin-top:18px;">
+        <button onclick="endA()">关闭日志</button>
+        <button onclick="endB()">前往水塔</button>
+      </div>
+    </div>
+
+    <div id="endMsg" style="margin-top:12px;font-size:12px;"></div>
+
+    <a class="back" href="duty.html">← 返回值班记录</a>
+
+  </div>
+
+  <div class="footer">
+    © 2003 资中县第二中学　网络中心制　IE5.5 以上浏览<br>
+    <span class="disclaimer">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </span>
+  </div>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+// 构建日志：历史记录 + 今日一条（动态生成）
+function buildLogs() {
+  var logs = [
+    { t: '2003-04-07 22:40', acc: '设备 3F-水位计', msg: '数据开始异常', cls: 'warnline' },
+    { t: '2003-04-07 23:04', acc: '设备 3F-水位计', msg: '读数 0.00（无用水）', cls: 'warnline' },
+    { t: '2003-04-07 23:16', acc: '设备 3F-水位计', msg: '离线', cls: 'danger' },
+    { t: '2003-04-07 23:41', acc: '账号 shuita', msg: '创建', cls: '' }
+  ];
+
+  // 每年 4 月 7 日 23:11 一条失败登录，直到去年
+  var thisYear = new Date().getFullYear();
+  for (var y = 2004; y < thisYear; y++) {
+    logs.push({
+      t: y + '-04-07 23:11',
+      acc: '账号 zdez',
+      msg: '登录失败（1/3）',
+      cls: 'dim'
+    });
+  }
+
+  // 今天一条：操作人 未知，IP = 访客
+  var today = todayStr();
+  logs.push({
+    t: today + ' 23:11',
+    acc: '账号 未知',
+    msg: '登录成功',
+    cls: 'danger',
+    ip: visitorTag()
+  });
+
+  return logs;
+}
+
+function renderLogs() {
+  var logs = buildLogs();
+  var box = document.getElementById('logBox');
+  var html = '';
+  for (var i = 0; i < logs.length; i++) {
+    var L = logs[i];
+    html += '<div class="' + (L.cls || '') + '">';
+    html += L.t + '　' + L.acc + '　' + L.msg;
+    if (L.ip) {
+      html += '　<span class="dim">操作 IP：' + L.ip + '</span>';
+    }
+    html += '</div>';
+  }
+  box.innerHTML = html;
+  document.getElementById('logCount').textContent = logs.length;
+}
+
+// 红线揭秘（需第三层密码 283146）
+var secretRevealed = false;
+function tryReveal() {
+  var v = document.getElementById('secretPass').value.trim();
+  var msg = document.getElementById('secretMsg');
+
+  // 第三层口令：283146（= 2-8 + 3-1 + 4-6）
+  if (v === '283146') {
+    secretRevealed = true;
+    var el = document.getElementById('secret');
+    el.classList.add('revealed');
+    document.getElementById('secretHint').textContent = '（已解密）';
+    msg.style.color = '#33ff33';
+    msg.textContent = '解密成功。';
+  } else if (v === '') {
+    msg.style.color = '#ffcc00';
+    msg.textContent = '请输入口令。';
+  } else {
+    msg.style.color = '#ff4444';
+    msg.textContent = '口令不正确。';
+  }
+}
+
+document.getElementById('secretPass').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') tryReveal();
+});
+
+// 结局 A：关闭日志
+function endA() {
+  var msg = document.getElementById('endMsg');
+  msg.style.color = '#cc0000';
+  msg.innerHTML = '日志已关闭。正在返回首页……';
+  try {
+    var n = parseInt(localStorage.getItem('zz2z_visits') || '1', 10) + 1;
+    localStorage.setItem('zz2z_visits', String(n));
+  } catch (e) {}
+  setTimeout(function () {
+    location.href = 'index.html?closed=1';
+  }, 1200);
+}
+
+// 结局 B：前往水塔
+function endB() {
+  location.href = 'top.html';
+}
+
+renderLogs();
+</script>
+</body>
+</html>

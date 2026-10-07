@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>　</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { background: #000; padding: 0; }
+  .page { border: none; box-shadow: none; background: #000; }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="finale" id="finale">
+
+    <div class="line" style="animation-delay:0.3s;">你推开天台的门。</div>
+    <div class="line" style="animation-delay:1.6s;">水塔的铁梯一共有 46 级。</div>
+    <div class="line" style="animation-delay:3.0s;">&nbsp;</div>
+    <div class="line" style="animation-delay:3.4s;">上面没有风。</div>
+    <div class="line" style="animation-delay:4.6s;">仪表盘还亮着，指针停在 2003 年 4 月 7 日 23 点 16 分。</div>
+    <div class="line" style="animation-delay:6.2s;">&nbsp;</div>
+    <div class="line" style="animation-delay:6.6s;">一个穿蓝布工装的人背对着你，正在拧一颗螺丝。</div>
+    <div class="line" style="animation-delay:8.4s;">他没有回头，说：</div>
+    <div class="line" style="animation-delay:9.6s;">&nbsp;</div>
+    <div class="line speak" style="animation-delay:10.0s;">"你来接班了？"</div>
+    <div class="line speak" style="animation-delay:11.4s;">"先登记。"</div>
+
+    <div class="line sys" style="animation-delay:13.0s;margin-top:26px;">
+      ——请在下方输入你的名字。
+    </div>
+
+    <div class="line" style="animation-delay:13.4s;margin-top:10px;">
+      <input type="text" id="nameInput" maxlength="12" autocomplete="off"
+             style="background:#111;color:#c8c8c8;border:1px solid #444;font-family:'宋体',SimSun,serif;font-size:14px;padding:4px 8px;width:160px;">
+      <button onclick="submitName()"
+              style="background:#1a1a1a;color:#c8c8c8;border:1px solid #444;font-family:'宋体',SimSun,serif;font-size:13px;padding:4px 14px;cursor:pointer;">登记</button>
+    </div>
+
+    <div id="result" style="margin-top:22px;"></div>
+
+  </div>
+</div>
+
+<script src="common.js"></script>
+<script>
+function submitName() {
+  var name = document.getElementById('nameInput').value.trim();
+  if (!name) {
+    alert('请先登记名字。');
+    return;
+  }
+
+  var result = document.getElementById('result');
+
+  // 生成值班记录行
+  var html = '';
+  html += '<div class="line" style="animation-delay:0s;color:#e8e8e8;">值班记录已更新。</div>';
+  html += '<div class="line" style="animation-delay:1.2s;color:#e8e8e8;">';
+  html += escapeHtml(name) + '，2003 年 4 月 7 日 23 点 16 分，上塔。';
+  html += '</div>';
+
+  result.innerHTML = html;
+
+  // 5 秒后彻底黑掉，只剩微弱光标
+  setTimeout(function () {
+    document.getElementById('finale').innerHTML =
+      '<div style="height:70vh;"></div>' +
+      '<div style="text-align:right;padding-right:20px;">' +
+      '<span class="cursor" style="background:#333;width:6px;height:12px;"></span>' +
+      '</div>';
+  }, 6000);
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+
+document.getElementById('nameInput').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') submitName();
+});
+</script>
+</body>
+</html>

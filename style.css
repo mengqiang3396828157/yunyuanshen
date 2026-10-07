@@ -1,0 +1,514 @@
+/* ==========================================================
+   资中二中校园网 · 公共样式
+   2003 年风格：宋体、蓝色标题栏、表格布局
+   ========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #d4d0c8;
+  font-family: "宋体", SimSun, "MS Song", serif;
+  font-size: 12px;
+  color: #000;
+  line-height: 1.7;
+  padding: 8px;
+}
+
+/* 页面主容器（800px 老式宽度） */
+.page {
+  width: 780px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #808080;
+  box-shadow: 2px 2px 0 #a0a0a0;
+}
+
+/* ===== 顶部横幅 ===== */
+.banner {
+  background: linear-gradient(to bottom, #1B4B8F 0%, #0d2f5e 100%);
+  color: #fff;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 3px solid #ffd700;
+}
+
+.logo {
+  width: 52px;
+  height: 52px;
+  border: 2px solid #ffd700;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffd700;
+  background: #0d2f5e;
+  flex-shrink: 0;
+  font-family: "楷体", KaiTi, serif;
+}
+
+.banner-text h1 {
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-family: "宋体", SimSun, serif;
+}
+
+.banner-text .sub {
+  font-size: 11px;
+  color: #a8c4e8;
+  margin-top: 3px;
+  letter-spacing: 1px;
+}
+
+/* ===== 导航栏 ===== */
+.nav {
+  background: #1B4B8F;
+  padding: 0 6px;
+  border-bottom: 1px solid #0d2f5e;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav a {
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 13px;
+  font-size: 12px;
+  border-right: 1px solid #2d5fa0;
+}
+
+.nav a:hover {
+  background: #2d5fa0;
+  text-decoration: underline;
+}
+
+.nav a.current {
+  background: #ffd700;
+  color: #1B4B8F;
+  font-weight: bold;
+}
+
+/* ===== 滚动公告 ===== */
+.marquee-bar {
+  background: #ffffcc;
+  border-bottom: 1px solid #d0c878;
+  padding: 5px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  height: 26px;
+}
+
+.marquee-inner {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 28s linear infinite;
+  font-size: 12px;
+  color: #8a5a00;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* ===== 内容区 ===== */
+.content {
+  padding: 14px 16px;
+  min-height: 340px;
+}
+
+h2.section {
+  font-size: 14px;
+  color: #1B4B8F;
+  border-left: 4px solid #1B4B8F;
+  padding-left: 8px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+h3.sub {
+  font-size: 13px;
+  color: #333;
+  margin: 14px 0 6px;
+  border-bottom: 1px dotted #999;
+  padding-bottom: 3px;
+}
+
+p {
+  margin-bottom: 8px;
+  text-indent: 2em;
+}
+
+p.noindent {
+  text-indent: 0;
+}
+
+a {
+  color: #0000cc;
+}
+
+a:hover {
+  color: #cc0000;
+}
+
+/* ===== 表格（老式） ===== */
+table.old {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  margin: 8px 0;
+}
+
+table.old th {
+  background: #1B4B8F;
+  color: #fff;
+  border: 1px solid #808080;
+  padding: 5px 8px;
+  font-weight: bold;
+  text-align: left;
+}
+
+table.old td {
+  border: 1px solid #a0a0a0;
+  padding: 5px 8px;
+  background: #fff;
+}
+
+table.old tr:nth-child(even) td {
+  background: #f4f4f4;
+}
+
+table.old tr:hover td {
+  background: #fffbe0;
+}
+
+/* ===== 计数器 ===== */
+.counter {
+  text-align: center;
+  padding: 8px;
+  background: #000;
+  border: 2px inset #808080;
+  font-family: "Courier New", monospace;
+  font-size: 15px;
+  color: #00ff00;
+  letter-spacing: 3px;
+  margin: 10px 0;
+}
+
+.counter .blink {
+  animation: breathe 2.6s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* ===== 平面图 ===== */
+.map {
+  border: 2px solid #808080;
+  background: #e8f0e0;
+  padding: 8px;
+  margin: 10px 0;
+}
+
+.map-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.map-cell {
+  flex: 1;
+  border: 1px solid #708060;
+  background: #d8e8c8;
+  padding: 14px 4px;
+  text-align: center;
+  font-size: 11px;
+  color: #405030;
+}
+
+.map-cell.tower {
+  background: #ffe0e0;
+  border: 2px solid #cc0000;
+  color: #cc0000;
+  font-weight: bold;
+  position: relative;
+}
+
+.map-cell.tower::after {
+  content: "⊙";
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-size: 12px;
+}
+
+/* ===== 占位图（图床挂掉） ===== */
+.broken-img {
+  border: 1px solid #a0a0a0;
+  background: #f0f0f0;
+  color: #909090;
+  text-align: center;
+  padding: 26px 8px;
+  font-size: 11px;
+  margin: 8px 0;
+}
+
+/* ===== 提示框 ===== */
+.hint {
+  background: #ffffe0;
+  border: 1px dashed #c0a000;
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #806000;
+  margin: 10px 0;
+}
+
+.warn {
+  background: #ffe8e8;
+  border: 1px dashed #cc0000;
+  padding: 8px 10px;
+  font-size: 11px;
+  color: #aa0000;
+  margin: 10px 0;
+}
+
+/* ===== 输入框与按钮 ===== */
+input[type="text"], input[type="password"] {
+  font-family: "宋体", SimSun, serif;
+  font-size: 12px;
+  padding: 3px 5px;
+  border: 2px inset #808080;
+  background: #fff;
+  width: 150px;
+}
+
+button, input[type="submit"] {
+  font-family: "宋体", SimSun, serif;
+  font-size: 12px;
+  padding: 3px 14px;
+  border: 2px outset #c0c0c0;
+  background: #d4d0c8;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+button:active, input[type="submit"]:active {
+  border-style: inset;
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  border-top: 2px solid #1B4B8F;
+  background: #e8e8e8;
+  padding: 10px 16px;
+  text-align: center;
+  font-size: 11px;
+  color: #666;
+  line-height: 1.9;
+}
+
+.footer .disclaimer {
+  color: #999;
+  font-size: 10px;
+  margin-top: 4px;
+}
+
+/* ===== 返回链接 ===== */
+.back {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+/* ===== 终端风格（值班记录/后台） ===== */
+.terminal {
+  background: #0a0a0a;
+  color: #33ff33;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  padding: 12px;
+  border: 2px inset #808080;
+  line-height: 1.8;
+}
+
+.terminal a {
+  color: #66ccff;
+}
+
+.terminal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+}
+
+.terminal table th {
+  color: #66ccff;
+  border-bottom: 1px solid #1a5a1a;
+  padding: 4px 8px;
+  text-align: left;
+  font-weight: normal;
+}
+
+.terminal table td {
+  border-bottom: 1px solid #143014;
+  padding: 4px 8px;
+  color: #33ff33;
+}
+
+.terminal .dim {
+  color: #2a6a2a;
+}
+
+.terminal .warnline {
+  color: #ffcc00;
+}
+
+.terminal .danger {
+  color: #ff4444;
+}
+
+/* 闪烁光标 */
+.cursor {
+  display: inline-block;
+  width: 7px;
+  height: 13px;
+  background: #33ff33;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* 删除线揭秘 */
+.redacted {
+  color: #ff4444;
+  text-decoration: line-through;
+  cursor: pointer;
+  user-select: none;
+}
+
+.redacted.revealed {
+  text-decoration: none;
+  color: #ff6666;
+}
+
+.redacted-hint {
+  font-size: 11px;
+  color: #2a6a2a;
+  margin-top: 4px;
+}
+
+/* ===== 乱码页 ===== */
+.garbled {
+  font-family: "宋体", SimSun, serif;
+  font-size: 13px;
+  line-height: 2.2;
+  color: #333;
+  word-break: break-all;
+  background: #f8f8f8;
+  border: 1px solid #ccc;
+  padding: 14px;
+  letter-spacing: 1px;
+}
+
+.garbled .ok {
+  color: #cc0000;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 0 2px;
+}
+
+/* ===== 终章 ===== */
+.finale {
+  background: #000;
+  color: #c8c8c8;
+  font-family: "宋体", SimSun, serif;
+  font-size: 14px;
+  line-height: 2.6;
+  padding: 40px 20px;
+  min-height: 420px;
+}
+
+.finale .line {
+  opacity: 0;
+  animation: fadeIn 1.2s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+.finale .speak {
+  color: #e8e8e8;
+  padding-left: 2em;
+}
+
+.finale .sys {
+  color: #808080;
+  font-size: 13px;
+}
+
+/* ===== 贴吧风格 ===== */
+.tieba-post {
+  border: 1px solid #c0c0c0;
+  margin-bottom: 8px;
+  background: #fff;
+}
+
+.tieba-floor {
+  background: #eef4fb;
+  border-bottom: 1px solid #c0c0c0;
+  padding: 4px 8px;
+  font-size: 11px;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tieba-body {
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.tieba-post.deleted .tieba-body {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* ===== 404 页 ===== */
+.err-page {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.err-page .big {
+  font-size: 52px;
+  color: #cc0000;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  letter-spacing: 4px;
+}
+
+.err-page .msg {
+  font-size: 14px;
+  color: #333;
+  margin: 18px 0;
+  line-height: 2.2;
+}

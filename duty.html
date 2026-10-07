@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>值班记录 - 资中县第二中学 · 校园网</title>
+<link rel="stylesheet" href="style.css">
+<!-- 水塔铁梯共 46 级（1982 年施工记录） -->
+</head>
+<body>
+
+<div class="page">
+
+  <div class="banner">
+    <div class="logo">二中</div>
+    <div class="banner-text">
+      <h1>资中县第二中学 · 校园网</h1>
+      <div class="sub">建站于 2003 年 3 月　│　最佳分辨率 800×600　│　IE5.5 以上浏览</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">学校概况</a>
+    <a href="notice.html" class="current">通知公告</a>
+    <a href="#" onclick="alert('校园影像栏目图床故障，正在抢修。\n（2003 年 4 月起）');return false;">校园影像</a>
+    <a href="#" onclick="alert('值日表数据已并入水塔水位监测系统。\n请联系总务处。');return false;">值日表</a>
+    <a href="#" onclick="alert('信箱已停用（2003 年 4 月）');return false;">校长信箱</a>
+    <a href="404.html">联系我们</a>
+  </div>
+
+  <div class="content">
+
+    <h2 class="section">值班记录 · 2003 年 4 月</h2>
+
+    <div class="terminal">
+      <div>总务处值班日志　│　录入员：王守义　│　录入日期：2003-04-08</div>
+      <div class="dim">────────────────────────────────────────────</div>
+
+      <table>
+        <tr>
+          <th style="width:90px;">日期</th>
+          <th style="width:110px;">值班人</th>
+          <th>事项</th>
+        </tr>
+        <tr><td>04-01</td><td>王守义</td><td>正常</td></tr>
+        <tr><td>04-02</td><td>王守义</td><td>正常</td></tr>
+        <tr><td>04-03</td><td>王守义</td><td>正常</td></tr>
+        <tr><td>04-04</td><td>王守义</td><td>正常</td></tr>
+        <tr><td>04-05</td><td>王守义</td><td>正常</td></tr>
+        <tr><td>04-06</td><td>王守义</td><td>正常</td></tr>
+        <tr>
+          <td>04-07</td>
+          <td class="dim">（空白）</td>
+          <td class="dim">（空白</td>
+        </tr>
+      </table>
+
+      <div class="dim">────────────────────────────────────────────</div>
+      <div>04-07 值班人：<span class="cursor"></span></div>
+      <div class="dim" style="margin-top:8px;">
+        本表由 2003 年 4 月录入。后续记录已并入水塔水位监测系统。
+      </div>
+    </div>
+
+    <div class="hint" style="font-family:'楷体',KaiTi,serif;font-size:12px;">
+      4 月 7 日夜里，水位计读数一直往下掉，可那天没有用水。
+    </div>
+
+    <h3 class="sub">口令验证</h3>
+    <div>
+      口令：<input type="password" id="pass" maxlength="12" autocomplete="off">
+      <button onclick="checkPass()">提交</button>
+    </div>
+    <div id="msg" style="margin-top:8px;font-size:12px;"></div>
+    <div id="extra" style="margin-top:6px;font-size:11px;color:#806000;"></div>
+
+    <a class="back" href="notice_2003.html">← 返回上一页</a>
+
+  </div>
+
+  <div class="footer">
+    © 2003 资中县第二中学　网络中心制　IE5.5 以上浏览<br>
+    <span class="disclaimer">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </span>
+  </div>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+var wrongCount = 0;
+
+function checkPass() {
+  var v = document.getElementById('pass').value.trim();
+  var msg = document.getElementById('msg');
+  var extra = document.getElementById('extra');
+
+  // 第二层口令：20030407
+  if (v === '20030407') {
+    msg.style.color = '#008000';
+    msg.textContent = '口令正确，正在进入水塔水位监测系统……';
+    setTimeout(function () {
+      location.href = 'admin.html';
+    }, 800);
+    return;
+  }
+
+  wrongCount++;
+  msg.style.color = '#cc0000';
+  if (v === '') {
+    msg.textContent = '请输入口令。';
+  } else {
+    msg.textContent = '口令不正确。（第 ' + wrongCount + ' 次）';
+  }
+
+  // 输错两次后追加提示
+  if (wrongCount >= 2) {
+    extra.textContent = '提示：就是 4 月 7 日那一天。';
+  }
+}
+
+document.getElementById('pass').addEventListener('keydown', function (e) {
+  if (e.key === 'Enter') checkPass();
+});
+</script>
+</body>
+</html>
