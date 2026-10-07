@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>食堂饭菜价格公示 - 资中县第二中学 · 校园网</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="banner">
+    <div class="logo">二中</div>
+    <div class="banner-text">
+      <h1>资中县第二中学 · 校园网</h1>
+      <div class="sub">建站于 2003 年 3 月　│　建议 IE5.5 以上、800×600 浏览</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="about.html">学校概况</a>
+    <a href="news.html">校园新闻</a>
+    <a href="notice.html">通知公告</a>
+    <a href="canteen.html" class="current">食堂公示</a>
+    <a href="map.html">校园平面图</a>
+    <a href="names.html">值日表</a>
+    <a href="contact.html">校长信箱</a>
+  </div>
+
+  <div class="content">
+
+    <h2 class="section">食堂饭菜价格公示表</h2>
+    <p class="noindent" style="font-size:11px;color:#888;">
+      公示日期：2005 年 9 月至今　│　监督电话：分机 2316
+    </p>
+
+    <table class="old price">
+      <tr>
+        <th style="width:150px;">菜名</th>
+        <th style="width:90px;">价格</th>
+        <th style="width:130px;">供应日期</th>
+        <th>备注</th>
+      </tr>
+      <tr><td>素炒白菜</td><td>0.50 元</td><td>2005-09 起</td><td>—</td></tr>
+      <tr><td>土豆丝</td><td>0.80 元</td><td>2005-09 起</td><td>—</td></tr>
+      <tr><td>番茄炒蛋</td><td>1.50 元</td><td>2005-09 起</td><td>—</td></tr>
+      <tr><td>青椒肉丝</td><td>2.50 元</td><td>2005-09 起</td><td>—</td></tr>
+      <tr><td>红烧肉</td><td>3.50 元</td><td>2005-09 起</td><td>周五供应</td></tr>
+      <tr><td>紫菜蛋汤</td><td>0.50 元</td><td>2005-09 起</td><td>—</td></tr>
+
+      <tr id="emptyRow">
+        <td class="empty-row" colspan="4" style="text-align:center;">
+          （此行为空）　　　　　　　　　　　　　　备注：<b>留一份</b>
+        </td>
+      </tr>
+
+      <tr><td>米饭</td><td>0.30 元</td><td>2005-09 起</td><td>可续</td></tr>
+      <tr><td>馒头</td><td>0.30 元</td><td>2005-09 起</td><td>—</td></tr>
+    </table>
+
+    <div class="hint" style="font-size:11px;">
+      注：本表由食堂管理员按学期更新。价格如有调整，以食堂现场公示为准。
+    </div>
+
+    <a class="back" href="index.html">← 返回首页</a>
+
+  </div>
+
+  <div class="footer">
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
+    <span class="disclaimer">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </span>
+  </div>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+document.getElementById('emptyRow').addEventListener('click', function () {
+  unlockAch('a11');
+  location.href = 'canteen_post.html';
+});
+markPage('canteen');
+</script>
+</body>
+</html>

@@ -23,7 +23,7 @@
     <a href="about.html">学校概况</a>
     <a href="news.html">校园新闻</a>
     <a href="notice.html" class="current">通知公告</a>
-    <a href="images.html">校园影像</a>
+    <a href="canteen.html">食堂公示</a>
     <a href="map.html">校园平面图</a>
     <a href="names.html">值日表</a>
     <a href="contact.html">校长信箱</a>
@@ -67,7 +67,6 @@
     <div id="msg" style="margin-top:8px;font-size:12px;"></div>
 
     <a class="back" href="notice.html">← 返回公告存档</a>
-
   </div>
 
   <div class="footer">
@@ -89,9 +88,14 @@ function checkPass() {
 
   if (v === '二中') {
     msg.style.color = '#008000';
-    msg.textContent = '口令正确，正在进入……';
+    msg.innerHTML = '口令正确，正在进入值班记录……<br>' +
+      '<a href="duty.html" style="font-size:11px;">［如果没有自动跳转，请点这里］</a>';
     unlockAch('a02');
-    setTimeout(function () { location.href = 'login.html'; }, 700);
+
+    // 立即跳转（不依赖 setTimeout）
+    setTimeout(function () { location.href = 'duty.html'; }, 600);
+    // 兜底：若 1.5 秒后仍未跳转，强制跳转
+    setTimeout(function () { location.replace('duty.html'); }, 1500);
     return;
   }
 

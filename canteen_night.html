@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>食堂留样登记本 - 资中县第二中学 · 校园网</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="banner">
+    <div class="logo">二中</div>
+    <div class="banner-text">
+      <h1>资中县第二中学 · 校园网</h1>
+      <div class="sub">建站于 2003 年 3 月　│　建议 IE5.5 以上、800×600 浏览</div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">首页</a>
+    <a href="about.html">学校概况</a>
+    <a href="news.html">校园新闻</a>
+    <a href="notice.html">通知公告</a>
+    <a href="canteen.html" class="current">食堂公示</a>
+    <a href="map.html">校园平面图</a>
+    <a href="names.html">值日表</a>
+    <a href="contact.html">校长信箱</a>
+  </div>
+
+  <div class="content">
+
+    <h2 class="section">食堂留样冰箱登记本</h2>
+    <p class="noindent" style="font-size:11px;color:#888;">
+      登记人：食堂管理员　│　本页为扫描件转录
+    </p>
+
+    <table class="old ledger" id="ledgerTable">
+      <tr>
+        <th style="width:130px;">日期</th>
+        <th style="width:100px;">份数</th>
+        <th>状态</th>
+      </tr>
+      <tr><td>2011-04-05</td><td>一份</td><td>已领</td></tr>
+      <tr><td>2011-04-06</td><td>一份</td><td>已领</td></tr>
+      <tr class="unclaimed"><td>2011-04-07</td><td>一份</td><td>未领</td></tr>
+      <tr class="unclaimed"><td>2011-04-08</td><td>一份</td><td>未领</td></tr>
+      <tr class="unclaimed"><td>2011-04-09</td><td>一份</td><td>未领</td></tr>
+      <tr class="unclaimed"><td>…（中间略）</td><td>…</td><td>…</td></tr>
+      <tr class="unclaimed"><td>2015-04-07</td><td>一份</td><td>未领</td></tr>
+      <tr class="unclaimed"><td>…（中间略）</td><td>…</td><td>…</td></tr>
+      <tr class="unclaimed"><td>2020-04-07</td><td>一份</td><td>未领</td></tr>
+      <tr class="unclaimed"><td>…（中间略）</td><td>…</td><td>…</td></tr>
+      <tr class="unclaimed" id="todayRow"><td>（今天）</td><td>一份</td><td>未领</td></tr>
+    </table>
+
+    <div class="hint" style="font-size:12px;line-height:2;">
+      从 2011 年 4 月 7 日起，每天多记一份。<br>
+      <b>十二年，一天没断。</b>
+    </div>
+
+    <h2 class="section" style="margin-top:24px;">2011 年 4 月 食堂值日表</h2>
+
+    <table class="old">
+      <tr>
+        <th style="width:110px;">日期</th>
+        <th style="width:130px;">值日生</th>
+        <th>交班签名</th>
+      </tr>
+      <tr><td>04-05</td><td>李×</td><td>✓ 已签</td></tr>
+      <tr><td>04-06</td><td>周××</td><td>✓ 已签</td></tr>
+      <tr><td>04-07</td><td><b>向拆法</b></td><td style="color:#cc0000;">（空白）</td></tr>
+      <tr><td>04-08</td><td>李×</td><td>✓ 已签</td></tr>
+    </table>
+
+    <div class="hint" style="font-size:11px;">
+      注：4 月 7 日值日生<b>向拆法</b>，交班签名一栏是空的。
+    </div>
+
+    <p class="noindent" style="font-size:11px;color:#888;">
+      <a href="canteen_ledger.html">［查看采购台账］</a>　│　
+      <a href="canteen_reply.html">［查看校方说明］</a>
+    </p>
+
+    <a class="back" href="canteen.html">← 返回食堂公示</a>
+
+  </div>
+
+  <div class="footer">
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
+    <span class="disclaimer">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </span>
+  </div>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+// 今天那一行用真实日期
+document.getElementById('todayRow').firstElementChild.textContent = todayStr();
+
+// 滚到底部解锁成就
+window.addEventListener('scroll', function () {
+  var doc = document.documentElement;
+  if (window.innerHeight + window.scrollY >= doc.scrollHeight - 80) {
+    unlockAch('a13');
+  }
+});
+markPage('canteen_night');
+</script>
+</body>
+</html>

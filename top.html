@@ -8,6 +8,19 @@
 <style>
   body { background: #000; padding: 0; }
   .page { border: none; box-shadow: none; background: #000; }
+  .finale input[type="text"] {
+    background: #111; color: #c8c8c8; border: 1px solid #444;
+    font-family: "宋体", SimSun, serif; font-size: 14px;
+    padding: 4px 8px; width: 160px;
+  }
+  .finale button {
+    background: #1a1a1a; color: #c8c8c8; border: 1px solid #444;
+    font-family: "宋体", SimSun, serif; font-size: 13px;
+    padding: 4px 14px; cursor: pointer;
+  }
+  .finale button.gold {
+    color: #ffcc00; border-color: #ffcc00;
+  }
 </style>
 </head>
 <body>
@@ -32,17 +45,20 @@
     </div>
 
     <div class="line" style="animation-delay:13.4s;margin-top:10px;">
-      <input type="text" id="nameInput" maxlength="12" autocomplete="off"
-             style="background:#111;color:#c8c8c8;border:1px solid #444;font-family:'宋体',SimSun,serif;font-size:14px;padding:4px 8px;width:160px;">
-      <button onclick="submitName()"
-              style="background:#1a1a1a;color:#c8c8c8;border:1px solid #444;font-family:'宋体',SimSun,serif;font-size:13px;padding:4px 14px;cursor:pointer;">登记</button>
+      <input type="text" id="nameInput" maxlength="12" autocomplete="off" placeholder="你的名字">
+      <button onclick="submitName()">登记</button>
     </div>
 
-    <div id="choiceBox" style="display:none;margin-top:16px;">
-      <button onclick="endingF()"
-              style="background:#1a1a1a;color:#ffcc00;border:1px solid #ffcc00;font-family:'宋体',SimSun,serif;font-size:13px;padding:6px 18px;cursor:pointer;">
-        我不能留下
-      </button>
+    <div id="choiceBox" style="display:none;margin-top:18px;">
+      <button class="gold" onclick="endingC_start()">我不能留下</button>
+    </div>
+
+    <div id="boardBox" style="display:none;margin-top:20px;">
+      <div class="line sys">——黑板报上那行字，还缺后半句。</div>
+      <div style="margin-top:12px;">
+        <input type="text" id="boardInput" maxlength="12" autocomplete="off" placeholder="最多 12 字">
+        <button class="gold" onclick="endingC_finish()">写上去</button>
+      </div>
     </div>
 
     <div id="result" style="margin-top:22px;"></div>
@@ -56,87 +72,106 @@
 
 <script src="common.js"></script>
 <script>
-// 读过工单 → 显示真结局选项
-if (lsGet('tearecord', '0') === '1') {
-  document.getElementById('choiceBox').style.display = 'block';
-}
+// 读过工单 + 进过黑板 → 显示真结局选项
+(function () {
+  var hasTearecord = lsGet('tearecord', '0') === '1';
+  var hasBlackboard = lsGet('blackboard', '0') === '1';
+  if (hasTearecord && hasBlackboard) {
+    document.getElementById('choiceBox').style.display = 'block';
+  }
+})();
 
 function submitName() {
   var name = document.getElementById('nameInput').value.trim();
   if (!name) { alert('请先登记名字。'); return; }
 
-  // 结局 C：输入"周德明"或 zdez
+  // 输入"周德明" → 额外文字（不再是结局）
   if (name === '周德明' || name === 'zdez') {
-    endingC();
+    extraText();
     return;
   }
 
-  // 结局 B：普通登记
   endingB(name);
 }
 
-// 结局 B：上塔登记
+// 输入周德明：额外文字，页面不结束
+function extraText() {
+  var result = document.getElementById('result');
+  result.innerHTML =
+    '<div class="line" style="color:#e8e8e8;">他拧螺丝的手停了一下。</div>' +
+    '<div class="line speak" style="animation-delay:1.2s;">"……你替我把这个拧完。"</div>' +
+    '<div class="line speak" style="animation-delay:2.4s;">"我下去看看。"</div>' +
+    '<div class="line" style="animation-delay:3.6s;color:#ffcc00;">仪表盘上的数字动了：23 点 17 分。</div>' +
+    '<div class="line sys" style="animation-delay:4.8s;">（页面不会结束。你可以再登记一次。）</div>';
+}
+
+/* ================= 结局 B《下塔》 ================= */
 function endingB(name) {
   var result = document.getElementById('result');
   result.innerHTML =
-    '<div class="line" style="animation-delay:0s;color:#e8e8e8;">值班记录已更新。</div>' +
-    '<div class="line" style="animation-delay:1.2s;color:#e8e8e8;">' +
-    escapeHtml(name) + '，2003 年 4 月 7 日 23 点 16 分，上塔。</div>';
-
-  unlockAch('a15');
-
-  setTimeout(function () {
-    document.getElementById('finale').innerHTML =
-      '<div style="height:70vh;"></div>' +
-      '<div style="text-align:right;padding-right:20px;">' +
-      '<span class="cursor" style="background:#333;width:6px;height:12px;"></span>' +
-      '</div>';
-  }, 6000);
-}
-
-// 结局 C：他就是周德明
-function endingC() {
-  var result = document.getElementById('result');
-  result.innerHTML =
-    '<div class="line" style="color:#e8e8e8;">你把名字输了进去。</div>' +
-    '<div class="line" style="color:#e8e8e8;animation-delay:1.2s;">屏幕上的光标停了。</div>' +
+    '<div class="line" style="color:#e8e8e8;">值班记录已更新。</div>' +
+    '<div class="line" style="color:#e8e8e8;animation-delay:1.2s;">' +
+    escapeHtml(name) + '，今天 23:16，上塔。</div>' +
     '<div class="line" style="animation-delay:2.6s;">&nbsp;</div>' +
-    '<div class="line" style="animation-delay:3.0s;">他拧螺丝的手停了。</div>' +
-    '<div class="line" style="animation-delay:4.2s;">然后他慢慢地、很慢地回过头来。</div>' +
-    '<div class="line" style="animation-delay:5.4s;">天台的风重新开始了。</div>' +
-    '<div class="line" style="animation-delay:6.8s;">&nbsp;</div>' +
-    '<div class="line speak" style="animation-delay:7.2s;">"……你替我把这个拧完。"</div>' +
-    '<div class="line speak" style="animation-delay:8.6s;">"我下去看看。"</div>' +
-    '<div class="line" style="animation-delay:10.0s;">&nbsp;</div>' +
-    '<div class="line" style="animation-delay:10.4s;color:#ffcc00;">仪表盘上的数字动了。</div>' +
-    '<div class="line" style="animation-delay:11.6s;color:#ffcc00;">2003 年 4 月 7 日 23 点 17 分。</div>';
+    '<div class="line" style="animation-delay:3.0s;">你回头看了一眼。楼梯还在。天还没亮。</div>' +
+    '<div class="line" style="animation-delay:4.4s;">他跟着你下来了。</div>' +
+    '<div class="line" style="animation-delay:6.0s;">&nbsp;</div>' +
+    '<div class="line" style="animation-delay:6.4s;">第二天早上，食堂开饭。</div>' +
+    '<div class="line" style="animation-delay:7.6s;">窗口的阿姨愣了一下，多打了一勺。</div>' +
+    '<div class="line speak" style="animation-delay:8.8s;">她说："今天怎么这么多人。"</div>' +
+    '<div class="line" style="animation-delay:10.2s;">&nbsp;</div>' +
+    '<div class="line" style="animation-delay:10.6s;">监控里，操场上走过去两个人。</div>' +
+    '<div class="line" style="animation-delay:11.8s;">其中一个，穿着蓝布工装。</div>' +
+    '<div class="line" style="animation-delay:13.4s;color:#ffcc00;">——食堂今天多打了三勺。</div>';
 
-  unlockAch('a16');
+  unlockAch('a21');
+  lsSet('ending', 'B');
 }
 
-// 结局 F：真结局
-function endingF() {
+/* ================= 结局 C《刷黑的板书》 ================= */
+function endingC_start() {
+  document.getElementById('boardBox').style.display = 'block';
+  document.getElementById('boardInput').focus();
+}
+
+function endingC_finish() {
+  var line = document.getElementById('boardInput').value.trim();
+  if (!line) { alert('请写下那行字。'); return; }
+
+  lsSet('final_line', line);
+  unlockAch('a22');
+  lsSet('ending', 'C');
+  lsSet('finished', '1');
+
   var result = document.getElementById('result');
   result.innerHTML =
-    '<div class="line" style="color:#e8e8e8;">"我不能留下。"</div>' +
-    '<div class="line" style="color:#e8e8e8;animation-delay:1.2s;">"我把你的班交给全部人。"</div>';
+    '<div class="line speak" style="color:#e8e8e8;">"我不能留下。"</div>' +
+    '<div class="line speak" style="color:#e8e8e8;animation-delay:1.2s;">"我把你的班，交给全部人。"</div>' +
+    '<div class="line" style="animation-delay:2.6s;">&nbsp;</div>' +
+    '<div class="line" style="animation-delay:3.0s;">你在黑板报上写下那行字：</div>' +
+    '<div class="line" style="animation-delay:4.0s;color:#fff;font-size:18px;">' +
+    escapeHtml(line) + '</div>' +
+    '<div class="line" style="animation-delay:5.4s;">粉笔灰落下来，像有人在很远的地方，把灯关了。</div>';
 
-  unlockAch('a18');
-
+  // 白屏收尾
   setTimeout(function () {
     var w = document.createElement('div');
     w.className = 'whitescreen';
     w.innerHTML =
-      '<div>交接完成。</div>' +
-      '<div style="margin-top:14px;">值班表已归档至 2003 年 4 月 7 日。</div>';
+      '<div>计数器从 0002831 跳到 0000000。</div>' +
+      '<div style="margin-top:10px;">滚动公告一条一条消失。</div>' +
+      '<div style="margin-top:10px;">今日访问：——　水位：——</div>' +
+      '<div style="margin-top:24px;">值班表已归档。最后一条记录：2011 年 4 月 7 日 23:16。</div>' +
+      '<div style="margin-top:24px;">第二天早上，食堂开饭。</div>' +
+      '<div>窗口的阿姨愣了一下，说："今天怎么这么多人。"</div>' +
+      '<div style="margin-top:20px;color:#666;">监控里，操场上走过去三个人：</div>' +
+      '<div style="color:#666;">一个蓝布工装，一个校服，一个背影看不清。</div>';
     document.body.appendChild(w);
-
-    lsSet('finished', '1');
 
     setTimeout(function () {
       location.href = 'oldpost.html';
-    }, 3200);
-  }, 2600);
+    }, 6000);
+  }, 6000);
 }
 
 function escapeHtml(s) {

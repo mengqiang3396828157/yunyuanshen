@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>水塔值班室手册 - 资中县第二中学 · 校园网</title>
+<title>食堂黑板报 - 资中县第二中学 · 校园网</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,7 +23,7 @@
     <a href="about.html">学校概况</a>
     <a href="news.html">校园新闻</a>
     <a href="notice.html">通知公告</a>
-    <a href="canteen.html">食堂公示</a>
+    <a href="canteen.html" class="current">食堂公示</a>
     <a href="map.html">校园平面图</a>
     <a href="names.html">值日表</a>
     <a href="contact.html">校长信箱</a>
@@ -31,48 +31,39 @@
 
   <div class="content">
 
-    <h2 class="section">水塔值班室手册</h2>
+    <h2 class="section">食堂门口的黑板报（照片）</h2>
     <p class="noindent" style="font-size:11px;color:#888;">
-      资二中〔1996〕02 号附件　│　总务处印发　│　共 1 页
+      拍摄者：游军　│　拍摄时间：2009 年秋　│　本页为照片文字转录
     </p>
 
-    <div class="manual">
-      <div style="text-align:center;font-size:15px;font-weight:bold;margin-bottom:14px;">
-        水塔值班室操作规程
+    <div class="blackboard">
+      <div class="chalk">本周菜谱</div>
+      <div class="chalk" style="font-size:16px;margin-top:10px;">
+        周一　番茄炒蛋　土豆丝<br>
+        周二　青椒肉丝　素炒白菜<br>
+        周三　红烧肉　紫菜蛋汤<br>
+        周四　……
       </div>
 
-      <div class="rule">
-        一、值班人员须于每日 21:00 抄录水位读数一次，并记入值班日志。
-      </div>
-
-      <div class="rule key">
-        接班人到齐后方可离岗。
-      </div>
-
-      <div class="rule">
-        二、水位装置如有异响，应上塔查看。
-      </div>
-
-      <div class="rule">
-        三、夜间不得单独上塔。
-      </div>
-
-      <div class="rule">
-        四、本规程自 1996 年 5 月 1 日起施行。
-      </div>
-
-      <div style="text-align:right;">
-        <span class="stamp">总务处</span>
+      <div style="margin-top:30px;text-align:right;">
+        <span class="chalk" style="font-size:17px;">
+          <span class="erased">我去问他</span>
+        </span>
       </div>
     </div>
 
     <div class="hint" style="font-size:12px;line-height:2;">
-      第 1 条和第 3 条放在一起看，会有点奇怪：<br>
-      如果夜间不得单独上塔，那 2003 年 4 月 7 日 22:40 上塔的那个人，
-      是在等谁到齐？
+      右下角有一行粉笔字，被擦掉了一半。<br>
+      擦痕从左往右，覆盖了六成。<br>
+      剩下的笔画，勉强能认出四个字：<b>「我去问他」</b>
     </div>
 
-    <a class="back" href="duty.html">← 返回值班记录</a>
+    <div class="hint" style="font-size:11px;">
+      这行字的笔迹，和陈敏老师笔记本上的字是同一手。
+      <a href="notebook.html">［查看陈敏的笔记本］</a>
+    </div>
+
+    <a class="back" href="canteen_reply.html">← 返回校方说明</a>
 
   </div>
 
@@ -87,8 +78,10 @@
 
 <script src="common.js"></script>
 <script>
-unlockAch('a06');
-markPage('manual');
+unlockAch('a16');
+// 标记已读到黑板 → 解锁真结局选项
+lsSet('blackboard', '1');
+markPage('blackboard');
 </script>
 </body>
 </html>

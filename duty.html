@@ -24,7 +24,7 @@
     <a href="about.html">学校概况</a>
     <a href="news.html">校园新闻</a>
     <a href="notice.html" class="current">通知公告</a>
-    <a href="images.html">校园影像</a>
+    <a href="canteen.html">食堂公示</a>
     <a href="map.html">校园平面图</a>
     <a href="names.html">值日表</a>
     <a href="contact.html">校长信箱</a>
@@ -109,18 +109,22 @@ function checkPass() {
   // 第二层口令：20030407
   if (v === '20030407') {
     msg.style.color = '#008000';
-    msg.textContent = '口令正确，正在进入水塔水位监测系统……';
+    msg.innerHTML = '口令正确，正在进入水塔水位监测系统……<br>' +
+      '<a href="admin.html" style="font-size:11px;">［如果没有自动跳转，请点这里］</a>';
     unlockAch('a03');
-    setTimeout(function () { location.href = 'admin.html'; }, 800);
+    setTimeout(function () { location.href = 'admin.html'; }, 700);
+    setTimeout(function () { location.replace('admin.html'); }, 1600);
     return;
   }
 
   // 备用码 462316（输错三次后接受）
   if (v === '462316' && wrongCount >= 3) {
     msg.style.color = '#008000';
-    msg.textContent = '备用码通过，正在进入……';
+    msg.innerHTML = '备用码通过，正在进入……<br>' +
+      '<a href="admin.html" style="font-size:11px;">［如果没有自动跳转，请点这里］</a>';
     unlockAch('a03');
-    setTimeout(function () { location.href = 'admin.html'; }, 800);
+    setTimeout(function () { location.href = 'admin.html'; }, 700);
+    setTimeout(function () { location.replace('admin.html'); }, 1600);
     return;
   }
 

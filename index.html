@@ -27,7 +27,7 @@
     <a href="about.html">学校概况</a>
     <a href="news.html">校园新闻</a>
     <a href="notice.html">通知公告</a>
-    <a href="images.html">校园影像</a>
+    <a href="canteen.html">食堂公示</a>
     <a href="map.html">校园平面图</a>
     <a href="names.html">值日表</a>
     <a href="contact.html">校长信箱</a>
@@ -122,12 +122,28 @@
     unlockAch('a20');
   }
 
-  // 结局 A 返回：今日访问 +1
+  // 结局 A 返回：今日访问 +1，并顶出值班表提示
   var params = new URLSearchParams(location.search);
   if (params.get('closed') === '1') {
     document.getElementById('visitCount').textContent = '2';
     document.getElementById('visitNote').textContent = '已有两人查看。';
-    unlockAch('a14');
+
+    // 顶出值班表提示
+    var alert = document.createElement('div');
+    alert.className = 'top-banner-alert';
+    alert.innerHTML =
+      '值班表已更新。今日值班人：你。交接时间：明天 23:11。';
+    document.querySelector('.page').insertBefore(alert, document.querySelector('.banner').nextSibling);
+
+    // 最后一屏
+    setTimeout(function () {
+      var tip = document.createElement('div');
+      tip.style.cssText = 'position:fixed;inset:0;background:#000;color:#888;' +
+        'display:flex;align-items:center;justify-content:center;z-index:300;' +
+        'font-family:宋体,SimSun,serif;font-size:16px;letter-spacing:2px;';
+      tip.textContent = '值班铃还会响。';
+      document.body.appendChild(tip);
+    }, 4000);
   }
 
   // 结局 F 返回：首页 404

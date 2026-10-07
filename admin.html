@@ -183,10 +183,9 @@ function doSubmit() {
   var msg = document.getElementById('endMsg');
 
   if (close && go) {
-    // 结局 E：关闭服务器
+    // 结局 C 前置：关闭服务器（不再是独立结局）
     msg.style.color = '#cc0000';
     msg.textContent = '正在关闭服务器……';
-    unlockAch('a17');
     setTimeout(function () {
       var w = document.createElement('div');
       w.className = 'whitescreen';
@@ -194,18 +193,21 @@ function doSubmit() {
       document.body.appendChild(w);
       setTimeout(function () {
         w.remove();
-        location.href = 'index.html';
+        location.href = 'top.html';
       }, 2600);
     }, 800);
     return;
   }
 
   if (close) {
-    // 结局 A
+    // 结局 A《留校》
     msg.style.color = '#cc0000';
-    msg.textContent = '日志已关闭。正在返回首页……';
-    unlockAch('a14');
+    msg.innerHTML = '日志已关闭。正在返回首页……<br>' +
+      '<a href="index.html?closed=1" style="color:#33ff33;font-size:11px;">［如果没有自动跳转，请点这里］</a>';
+    unlockAch('a20');
+    lsSet('ending', 'A');
     setTimeout(function () { location.href = 'index.html?closed=1'; }, 1200);
+    setTimeout(function () { location.replace('index.html?closed=1'); }, 2200);
     return;
   }
 

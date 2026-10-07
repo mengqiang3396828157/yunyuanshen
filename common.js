@@ -1,6 +1,6 @@
 /* ==========================================================
-   资中二中校园网 · 公共脚本 v3
-   包含：站点工具 / 成就系统 / 回访记忆 / 日期彩蛋
+   资中二中校园网 · 公共脚本 v4
+   包含：站点工具 / 成就系统(24) / 回访记忆 / 日期彩蛋
    ========================================================== */
 
 // ---------- 站点常量 ----------
@@ -56,29 +56,40 @@ function renderUptime() {
 }
 
 /* ==========================================================
-   成就系统（20 个）
+   成就系统（24 个）
+   主线 4 / 水塔支线 6 / 食堂支线 6 / 文化线 3 / 结局 3 / 交互 2
    ========================================================== */
 var ACHIEVEMENTS = [
-  { id: 'a01', name: '唯一的访客',       desc: '首次打开首页' },
-  { id: 'a02', name: '坏掉的两个字',     desc: '解开口令「二中」' },
-  { id: 'a03', name: '4 月 7 日',        desc: '解开口令「20030407」' },
-  { id: 'a04', name: '三段',             desc: '集齐 2-8 / 3-1 / 4-6' },
-  { id: 'a05', name: '我来数一数',       desc: '读完观察者名单最后一行' },
-  { id: 'a06', name: '第一条',           desc: '读到手册「接班人到齐后方可离岗」' },
-  { id: 'a07', name: '二十行一样',       desc: '翻完历年日志' },
-  { id: 'a08', name: '那扇关着的窗',     desc: '在影像页注意到顶层窗格' },
-  { id: 'a09', name: '新锁',             desc: '在旧帖注意到 5 楼' },
-  { id: 'a10', name: '23:16',            desc: '输入校验码 2316' },
-  { id: 'a11', name: '水位 0.61',        desc: '打开原始数据页' },
-  { id: 'a12', name: '倒着听',           desc: '触发校歌倒放' },
-  { id: 'a13', name: '接线员',           desc: '结局 D' },
-  { id: 'a14', name: '第二位',           desc: '结局 A' },
-  { id: 'a15', name: '登记',             desc: '结局 B' },
-  { id: 'a16', name: '回头',             desc: '结局 C' },
-  { id: 'a17', name: '一起关掉',         desc: '结局 E' },
-  { id: 'a18', name: '交接完成',         desc: '结局 F' },
-  { id: 'a19', name: '导航之外',         desc: '打开 sitemap.xml' },
-  { id: 'a20', name: '你昨天来过',       desc: '触发回访记忆' }
+  // 主线 4
+  { id: 'a01', name: '唯一的访客',     desc: '首次打开首页' },
+  { id: 'a02', name: '坏掉的两个字',   desc: '解开口令「二中」' },
+  { id: 'a03', name: '4 月 7 日',      desc: '解开口令「20030407」' },
+  { id: 'a04', name: '三段',           desc: '集齐 2-8 / 3-1 / 4-6' },
+  // 水塔支线 6
+  { id: 'a05', name: '我来数一数',     desc: '读完值班表最后一行' },
+  { id: 'a06', name: '第一条',         desc: '读到手册「接班人到齐后方可离岗」' },
+  { id: 'a07', name: '二十行一样',     desc: '翻完历年日志' },
+  { id: 'a08', name: '那扇关着的窗',   desc: '在影像页注意到顶层窗格' },
+  { id: 'a09', name: '倒着听',         desc: '触发校歌倒放' },
+  { id: 'a10', name: '导航之外',       desc: '打开 sitemap.xml' },
+  // 食堂支线 6
+  { id: 'a11', name: '那道没卖过的菜', desc: '发现菜价表里那行是空的' },
+  { id: 'a12', name: '被删的帖',       desc: '读完被删的帖子' },
+  { id: 'a13', name: '十二年没断',     desc: '翻完留样登记本' },
+  { id: 'a14', name: '多做了 30 份',   desc: '算出 2011 年 4 月的夜班餐' },
+  { id: 'a15', name: '三分钟',         desc: '读到办公室里的三分钟' },
+  { id: 'a16', name: '刷黑的板书',     desc: '看见被擦掉半行的粉笔字' },
+  // 文化线 3
+  { id: 'a17', name: '合订本里的灯',   desc: '在 2009 年校刊里看见水塔的灯' },
+  { id: 'a18', name: '第 4 次',        desc: '读到陈敏笔记本上的记录' },
+  { id: 'a19', name: '接收学校是空的', desc: '发现学籍异动的接收学校一栏空白' },
+  // 结局 3
+  { id: 'a20', name: '留校',           desc: '结局 A' },
+  { id: 'a21', name: '下塔',           desc: '结局 B' },
+  { id: 'a22', name: '交接完成',       desc: '结局 C（真结局）' },
+  // 交互 2
+  { id: 'a23', name: '你昨天来过',     desc: '触发回访记忆' },
+  { id: 'a24', name: '一年只有一天',   desc: '在 4 月 7 日打开首页' }
 ];
 
 function gotAch(id) {
@@ -157,10 +168,9 @@ function initAchUI() {
    回访记忆
    ========================================================== */
 function checkReturnVisit() {
-  var last = lsGet('lastPage', null);
   var visited = lsGet('visited', '0') === '1';
   lsSet('visited', '1');
-  return { isReturn: visited, lastPage: last };
+  return { isReturn: visited };
 }
 
 function markPage(name) {
@@ -174,10 +184,8 @@ document.addEventListener('DOMContentLoaded', function () {
   renderUptime();
   initAchUI();
 
-  // 页脚年份
   var y = document.getElementById('footYear');
   if (y) y.textContent = '2003';
 
-  // 控制台留言
   console.log('%c谁在维护这个站？', 'color:#888;font-size:14px;');
 });
