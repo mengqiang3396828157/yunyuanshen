@@ -8,7 +8,23 @@
   <url><loc>index.html</loc><lastmod>2003-04-09</lastmod><priority>1.0</priority></url>
   <url><loc>about.html</loc><lastmod>2003-04-09</lastmod><priority>0.8</priority></url>
   <url><loc>news.html</loc><lastmod>2003-04-07</lastmod><priority>0.8</priority></url>
-  <url><loc>notice.html</loc><lastmod>2003-04-08</lastmod><priority>0.8</priority></url>
+  <url><loc>notice.html</loc><lastmod>2003-04-09</lastmod><priority>0.8</priority></url>
+
+  <!-- 通知公告正文 -->
+  <url><loc>notice/20030407.html</loc><lastmod>2003-04-07</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20030406.html</loc><lastmod>2003-04-06</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20030402.html</loc><lastmod>2003-04-02</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20030315.html</loc><lastmod>2003-03-15</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20021115.html</loc><lastmod>2002-11-15</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20020902.html</loc><lastmod>2002-09-02</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20020620.html</loc><lastmod>2002-06-20</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20020425.html</loc><lastmod>2002-04-25</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20020306.html</loc><lastmod>2002-03-06</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20011228.html</loc><lastmod>2001-12-28</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20011120.html</loc><lastmod>2001-11-20</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20040318.html</loc><lastmod>2004-03-18</lastmod><priority>0.5</priority></url>
+  <url><loc>notice/20050408.html</loc><lastmod>2005-04-08</lastmod><priority>0.5</priority></url>
+
   <url><loc>canteen.html</loc><lastmod>2011-04-07</lastmod><priority>0.6</priority></url>
   <url><loc>images.html</loc><lastmod>2003-04-07</lastmod><priority>0.6</priority></url>
   <url><loc>map.html</loc><lastmod>2003-04-08</lastmod><priority>0.6</priority></url>

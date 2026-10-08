@@ -31,76 +31,111 @@
 
   <div class="content">
 
-    <h2 class="section">通知公告（存档）</h2>
+    <h2 class="section">通知公告</h2>
 
     <div class="searchbar">
-      站内搜索：
+      站内检索：
       <input type="text" id="searchInput" placeholder="输入关键词" style="width:160px;">
-      <button onclick="doSearch()">搜索</button>
+      <button onclick="doSearch()">检索</button>
       <span id="searchMsg" style="font-size:11px;color:#888;margin-left:6px;"></span>
     </div>
 
-    <p class="noindent" style="font-size:11px;color:#888;">
-      本页收录 2001 年至今的全部公告。2003 年 4 月以后未再更新。
-    </p>
+    <!-- 顶部单独一行：已撤回的说明（删除线） -->
+    <div style="font-size:12px;color:#888;text-decoration:line-through;margin-bottom:10px;">
+      <a href="notice/20030408.html" title="该说明已于 2003 年 4 月 9 日撤回。"
+         style="color:#888;">2003-04-08　关于周德明同志调离我处的说明</a>
+      <span style="font-size:11px;">（该说明已于 2003 年 4 月 9 日撤回）</span>
+    </div>
 
     <table class="old">
       <tr>
         <th style="width:110px;">发布日期</th>
-        <th style="width:150px;">编号</th>
         <th>标题</th>
-      </tr>
-
-      <tr>
-        <td>2011-09-01</td>
-        <td>资二中〔2011〕09 号</td>
-        <td><a href="#" onclick="alert('新版正在建设中。');return false;">关于启用新版校园网的通知</a>
-          <span style="color:#999;font-size:11px;">（正文空白）</span></td>
-      </tr>
-
-      <tr>
-        <td>2005-04-08</td>
-        <td>资二中〔2005〕3-1 号</td>
-        <td><a href="#" onclick="alert('正文缺失。');return false;">关于开展校园安全检查的通知</a></td>
-      </tr>
-
-      <tr>
-        <td>2004-04-01</td>
-        <td>资二中〔2004〕03 号</td>
-        <td><a href="#" onclick="alert('新来的同志不必上塔。\n—— 总务处');return false;">关于水塔例行检修的通知</a></td>
-      </tr>
-
-      <tr>
-        <td>2003-04-08</td>
-        <td>资二中〔2003〕04 号</td>
-        <td><a href="#" title="该说明已于 2003 年 4 月 9 日撤回" onclick="alert('正文区为空。\n签发人：伍文森');return false;">关于周德明同志调离我处的说明</a>
-          <span style="color:#999;font-size:11px;">（正文空白）</span></td>
+        <th style="width:80px;">点击次数</th>
       </tr>
 
       <tr>
         <td>2003-04-07</td>
-        <td>资二中〔2003〕3-1 号</td>
-        <td><a href="notice_2003.html">关于水塔顶增设水位监测装置的通知</a></td>
+        <td><a href="notice_2003.html">关于水塔顶增设水位监测装置的通告</a></td>
+        <td>47</td>
       </tr>
-
+      <tr>
+        <td>2003-04-06</td>
+        <td><a href="notice/20030406.html">关于清明假期值班安排的通知</a></td>
+        <td>31</td>
+      </tr>
+      <tr>
+        <td>2003-04-02</td>
+        <td><a href="notice/20030402.html">关于校园网络设备检修的通知</a></td>
+        <td>28</td>
+      </tr>
       <tr>
         <td>2003-03-15</td>
-        <td>资二中〔2003〕1-2 号</td>
-        <td><a href="#" onclick="alert('校园网试运行期间，服务器暂放总务处。');return false;">关于校园网试运行的通知</a></td>
+        <td><a href="notice/20030315.html">关于校园网正式开通的通知</a></td>
+        <td>22</td>
       </tr>
-
+      <tr>
+        <td>2002-11-15</td>
+        <td><a href="notice/20021115.html">关于秋季运动会期间课程调整的通知</a></td>
+        <td>17</td>
+      </tr>
+      <tr>
+        <td>2002-09-02</td>
+        <td><a href="notice/20020902.html">关于做好二〇〇二学年秋季开学工作的通知</a></td>
+        <td>14</td>
+      </tr>
+      <tr>
+        <td>2002-06-20</td>
+        <td><a href="notice/20020620.html">关于期末工作安排的通知</a></td>
+        <td>12</td>
+      </tr>
+      <tr>
+        <td>2002-04-25</td>
+        <td><a href="notice/20020425.html">关于调整夏季作息时间的通知</a></td>
+        <td>11</td>
+      </tr>
+      <tr>
+        <td>2002-03-06</td>
+        <td><a href="notice/20020306.html">关于教职工体检安排的通知</a></td>
+        <td>9</td>
+      </tr>
+      <tr>
+        <td>2001-12-28</td>
+        <td><a href="notice/20011228.html">关于教职工电子邮箱开通的通知</a></td>
+        <td>8</td>
+      </tr>
       <tr>
         <td>2001-11-20</td>
-        <td>—</td>
-        <td><a href="#" onclick="alert('正文缺失。');return false;">关于元旦晚会节目征集的通知</a></td>
+        <td><a href="notice/20011120.html">关于校园网试运行的通知</a></td>
+        <td>6</td>
       </tr>
-
     </table>
 
-    <div class="hint">
-      注：2003 年 4 月 7 日公告的正文已损坏，点击后显示系统校验数据。
-      如需查阅原件，请到水塔值班室登记。
-    </div>
+    <h3 class="sub" style="margin-top:20px;">附：补录通知（2 条）</h3>
+    <p class="noindent" style="font-size:11px;color:#888;">
+      本栏目已于 2003 年 4 月 9 日停止更新，以下通知由总务处于 2005 年补录。
+    </p>
+    <table class="old">
+      <tr>
+        <th style="width:110px;">发布日期</th>
+        <th>标题</th>
+        <th style="width:80px;">点击次数</th>
+      </tr>
+      <tr>
+        <td>2004-03-18</td>
+        <td><a href="notice/20040318.html">〔2004〕03 号　关于水塔例行检修的通知</a></td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>2005-04-08</td>
+        <td><a href="notice/20050408.html">关于校园安全检查的通知</a></td>
+        <td>3</td>
+      </tr>
+    </table>
+
+    <p class="noindent" style="font-size:11px;color:#888;text-align:right;margin-top:14px;">
+      共 14 条　1/1 页　发布人：网络中心
+    </p>
 
     <a class="back" href="index.html">← 返回首页</a>
 
@@ -121,12 +156,14 @@ function doSearch() {
   var q = document.getElementById('searchInput').value.trim();
   var msg = document.getElementById('searchMsg');
 
-  // 彩蛋：搜索"水塔 几点"
-  if (q.replace(/\s+/g, '') === '水塔几点' || q === '水塔 几点') {
-    msg.innerHTML = '<span style="color:#cc0000;">找到 1 条结果：</span>' +
-      '「水塔顶增设水位监测装置」　时间：<b>23:16</b>';
+  // F10：只有"水塔"能搜出东西，且只有这一行带时分秒
+  if (q.indexOf('水塔') >= 0) {
+    msg.innerHTML = '找到 1 条结果：<br>' +
+      '<span style="color:#0000cc;">2003-04-07　关于水塔顶增设水位监测装置的通告</span>' +
+      '　<span style="color:#888;">摘要：为加强校园用水管理……　23:16</span>';
     return;
   }
+
   if (q === '') {
     msg.textContent = '请输入关键词。';
     return;
@@ -138,7 +175,7 @@ document.getElementById('searchInput').addEventListener('keydown', function (e) 
   if (e.key === 'Enter') doSearch();
 });
 
-markPage('notice');
+try { markPage('notice'); } catch (e) {}
 </script>
 </body>
 </html>
