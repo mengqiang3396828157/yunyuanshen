@@ -308,7 +308,7 @@ button:active, input[type="submit"]:active {
   border-style: inset;
 }
 
-/* ===== 页脚 ===== */
+/* ===== 页脚（§10.11 逐字固定） ===== */
 .footer {
   border-top: 2px solid #1B4B8F;
   background: #e8e8e8;
@@ -322,8 +322,139 @@ button:active, input[type="submit"]:active {
 .footer .disclaimer {
   color: #999;
   font-size: 10px;
-  margin-top: 4px;
 }
+
+/* 页脚四行（v4.5 统一） */
+.footer .f1,
+.footer .f2,
+.footer .f3 {
+  font-size: 11px;
+  color: #666;
+}
+
+.footer .f4 {
+  font-size: 10px;
+  color: #999;
+}
+
+/* ===== 监控画面（top.html） ===== */
+.monitor {
+  background: #000;
+  border: 3px inset #808080;
+  padding: 0;
+  margin: 12px 0;
+  position: relative;
+}
+
+.monitor-screen {
+  background: #1a1a1a;
+  min-height: 240px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #b8b8b8;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  line-height: 2;
+}
+
+/* 低像素扫描线 */
+.monitor-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.03) 0px,
+    rgba(255,255,255,0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}
+
+.monitor .timecode {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  color: #e8e8e8;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  background: rgba(0,0,0,0.6);
+  padding: 1px 5px;
+}
+
+.monitor .scanline-note {
+  font-size: 11px;
+  color: #888;
+  text-align: center;
+  padding: 6px;
+  background: #0a0a0a;
+  border-top: 1px solid #333;
+}
+
+/* 画面里的背影 */
+.back-figure {
+  width: 46px;
+  height: 76px;
+  background: #4a5a6a;
+  border-radius: 20px 20px 4px 4px;
+  position: relative;
+  margin-bottom: 10px;
+  opacity: 0.85;
+}
+
+.back-figure::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -18px;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 22px;
+  background: #3a4a5a;
+  border-radius: 50%;
+}
+
+/* 电子交接单 */
+.handover-form {
+  border: 2px solid #808080;
+  background: #f0f0f0;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-family: "宋体", SimSun, serif;
+  font-size: 13px;
+}
+
+.handover-form .form-title {
+  font-weight: bold;
+  border-bottom: 1px solid #b0b0b0;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+/* 校长信箱来信表 */
+table.mailbox td:first-child {
+  width: 110px;
+  white-space: nowrap;
+  color: #666;
+}
+
+table.mailbox td:nth-child(2) {
+  width: 45%;
+}
+
+/* 灰掉的按钮 */
+input[type="button"][disabled] {
+  color: #a0a0a0;
+  background: #e0e0e0;
+  border: 2px outset #d0d0d0;
+  cursor: default;
+}
+
 
 /* ===== 返回链接 ===== */
 .back {
