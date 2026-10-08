@@ -159,14 +159,29 @@
 
   // 结局 C 之后：首页 404
   if (lsGet('finished', '0') === '1') {
-    document.body.innerHTML =
-      '<div style="text-align:center;padding:60px 20px;font-family:宋体,SimSun,serif;">' +
-      '<div style="font-size:48px;color:#cc0000;font-weight:bold;letter-spacing:4px;">404</div>' +
-      '<div style="margin-top:20px;font-size:14px;line-height:2.2;">' +
-      '您要访问的页面不存在。<br>本站已归档。</div>' +
-      '<div style="margin-top:20px;"><a href="oldpost.html">［查看缓存］</a></div>' +
-      '</div>';
-    return;
+    // 测试模式：?test=1 时跳过 404，方便继续测试
+    var isTest = new URLSearchParams(location.search).get('test') === '1';
+    if (!isTest) {
+      document.body.innerHTML =
+        '<div style="text-align:center;padding:60px 20px;font-family:宋体,SimSun,serif;">' +
+        '<div style="font-size:48px;color:#cc0000;font-weight:bold;letter-spacing:4px;">404</div>' +
+        '<div style="margin-top:20px;font-size:14px;line-height:2.2;">' +
+        '您要访问的页面不存在。<br>本站已归档。</div>' +
+        '<div style="margin-top:20px;">' +
+        '<a href="oldpost.html">［查看缓存］</a>　│　' +
+        '<a href="index.html?test=1">［测试模式：跳过归档］</a>' +
+        '</div>' +
+        '</div>';
+      return;
+    }
+    // 测试模式提示条
+    var bar = document.createElement('div');
+    bar.className = 'top-banner-alert';
+    bar.style.background = '#1B4B8F';
+    bar.innerHTML = '测试模式（?test=1）　│　' +
+      '<a href="reset.html" style="color:#ffd700;">［重置全部进度］</a>　│　' +
+      '<a href="index.html" style="color:#ffd700;">［退出测试模式］</a>';
+    document.querySelector('.page').insertBefore(bar, document.querySelector('.banner').nextSibling);
   }
 
   try { markPage('index'); } catch (e) {}

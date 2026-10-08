@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>测试工具 · 重置进度</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .tool-box {
+    max-width: 520px;
+    margin: 20px auto;
+    border: 2px solid #1B4B8F;
+    background: #eef4fb;
+    padding: 18px 20px;
+  }
+  .tool-box h3 {
+    color: #1B4B8F;
+    font-size: 15px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #b0c8e0;
+    padding-bottom: 8px;
+  }
+  .btn-row { margin: 10px 0; }
+  .btn-row button {
+    font-family: "宋体", SimSun, serif;
+    font-size: 13px;
+    padding: 6px 16px;
+    border: 2px outset #c0c0c0;
+    background: #d4d0c8;
+    cursor: pointer;
+    margin-right: 8px;
+  }
+  .btn-row button:active { border-style: inset; }
+  #status {
+    margin-top: 14px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #c0c0c0;
+    font-size: 12px;
+    line-height: 1.9;
+    min-height: 40px;
+  }
+  .warnbox {
+    background: #ffe8e8;
+    border: 1px dashed #cc0000;
+    color: #aa0000;
+    padding: 8px 10px;
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="banner" style="background:linear-gradient(to bottom,#4a4a4a 0%,#2a2a2a 100%);">
+    <div class="logo" style="border-color:#ccc;color:#ccc;background:#2a2a2a;">测</div>
+    <div class="banner-text">
+      <h1 style="color:#ddd;">测试工具</h1>
+      <div class="sub" style="color:#999;">本页不属于游戏内容，仅供开发测试使用</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="warnbox">
+      ⚠️ 本页是开发工具页，不属于游戏本体。<br>
+      正式发布时可以从站点里删除（不影响任何游戏流程）。
+    </div>
+
+    <div class="tool-box">
+      <h3>进度管理</h3>
+
+      <div class="btn-row">
+        <button onclick="resetAll()">重置全部进度</button>
+        <button onclick="showState()">查看当前状态</button>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="skipTo('admin')">跳到后台（admin）</button>
+        <button onclick="skipTo('top')">跳到终章（top）</button>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="unlockAll()">解锁全部成就</button>
+        <button onclick="clearFinished()">只清除「已归档」标记</button>
+      </div>
+
+      <div id="status">点击上方按钮操作。</div>
+    </div>
+
+    <div class="tool-box">
+      <h3>常用入口</h3>
+      <p class="noindent" style="font-size:12px;line-height:2.2;">
+        <a href="index.html">首页</a>　│　
+        <a href="notice_2003.html">乱码页</a>　│　
+        <a href="duty.html">值班记录</a>　│　
+        <a href="admin.html">后台</a>　│　
+        <a href="tearecord.html">工单</a>　│　
+        <a href="blackboard.html">黑板报</a>　│　
+        <a href="top.html">终章</a>
+      </p>
+    </div>
+
+    <a class="back" href="index.html">← 返回首页</a>
+
+  </div>
+
+  <div class="footer">
+    © 2003 资中县第二中学　网络中心制　建议 IE5.5 以上、800×600 浏览<br>
+    <span class="disclaimer">
+      本页面为虚构创作，与现实中的任何学校、个人、事件无关。
+    </span>
+  </div>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+function status(html) {
+  document.getElementById('status').innerHTML = html;
+}
+
+function resetAll() {
+  try { localStorage.clear(); } catch (e) {}
+  status('<span style="color:#008000;">✅ 已清空全部 localStorage。</span><br>' +
+    '成就、结局标记、回访记忆、玩家写的那行字，全部重置。<br>' +
+    '现在可以从首页重新开始了。');
+}
+
+function clearFinished() {
+  lsSet('finished', '0');
+  lsSet('ending', '');
+  status('<span style="color:#008000;">✅ 已清除「已归档」标记。</span><br>' +
+    '首页不再返回 404，可以继续测试。');
+}
+
+function showState() {
+  var keys = ['visited', 'visitor', 'ending', 'finished', 'final_line',
+    'tearecord', 'blackboard', 'lastPage'];
+  var html = '<b>当前 localStorage 状态：</b><br>';
+  for (var i = 0; i < keys.length; i++) {
+    var v = lsGet(keys[i], '(未设置)');
+    html += '　' + keys[i] + ' = ' + v + '<br>';
+  }
+  html += '<br><b>成就：</b>' + achCount() + ' / ' + ACHIEVEMENTS.length;
+  status(html);
+}
+
+function unlockAll() {
+  for (var i = 0; i < ACHIEVEMENTS.length; i++) {
+    lsSet('ach_' + ACHIEVEMENTS[i].id, '1');
+  }
+  renderAchBar();
+  status('<span style="color:#008000;">✅ 已解锁全部 ' + ACHIEVEMENTS.length + ' 个成就。</span>');
+}
+
+function skipTo(where) {
+  if (where === 'admin') {
+    lsSet('tearecord', '0');
+    location.href = 'admin.html';
+  } else if (where === 'top') {
+    // 解锁真结局前置条件
+    lsSet('tearecord', '1');
+    lsSet('blackboard', '1');
+    location.href = 'top.html';
+  }
+}
+
+showState();
+</script>
+</body>
+</html>
