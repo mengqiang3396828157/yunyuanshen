@@ -50,7 +50,7 @@
       <tr><td>红烧肉</td><td>3.50 元</td><td>2005-09 起</td><td>周五供应</td></tr>
       <tr><td>紫菜蛋汤</td><td>0.50 元</td><td>2005-09 起</td><td>—</td></tr>
 
-      <tr id="emptyRow">
+      <tr id="emptyRow" style="cursor:pointer;">
         <td class="empty-row" colspan="4" style="text-align:center;">
           （此行为空）　　　　　　　　　　　　　　备注：<b>留一份</b>
         </td>
@@ -63,6 +63,12 @@
     <div class="hint" style="font-size:11px;">
       注：本表由食堂管理员按学期更新。价格如有调整，以食堂现场公示为准。
     </div>
+
+    <p class="noindent" style="font-size:11px;color:#888;">
+      <a href="canteen_post.html">［相关讨论帖（缓存）］</a>　│　
+      <a href="canteen_night.html">［留样登记本］</a>　│　
+      <a href="canteen_ledger.html">［采购台账］</a>
+    </p>
 
     <a class="back" href="index.html">← 返回首页</a>
 
@@ -79,11 +85,26 @@
 
 <script src="common.js"></script>
 <script>
-document.getElementById('emptyRow').addEventListener('click', function () {
-  unlockAch('a11');
-  location.href = 'canteen_post.html';
-});
-markPage('canteen');
+// 点击空行 → 跳转到被删的帖子
+(function () {
+  var row = document.getElementById('emptyRow');
+  if (!row) return;
+
+  function go() {
+    // 成就失败也不能影响跳转
+    try { unlockAch('a12'); } catch (e) {}
+    location.href = 'canteen_post.html';
+  }
+
+  row.addEventListener('click', go);
+  // 触摸端兜底
+  row.addEventListener('touchend', function (e) {
+    e.preventDefault();
+    go();
+  });
+})();
+
+try { markPage('canteen'); } catch (e) {}
 </script>
 </body>
 </html>

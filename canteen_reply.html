@@ -78,6 +78,24 @@
       此后未再提起相关话题。
     </div>
 
+    <h2 class="section" style="margin-top:20px;">学生询问信</h2>
+    <div class="scan">
+      【发件人】魏晓博<br>
+      【收件人】学校办公室<br>
+      【时间】2026-03-12 21:07<br>
+      【主题】关于食堂留样冰箱最下层的一个饭盒<br><br>
+      老师您好：<br><br>
+      　　我是高二（3）班的魏晓博。我想问一件事。<br><br>
+      　　食堂留样冰箱最下层有一个饭盒，我同学肖精亨在后厨
+      勤工俭学，他说那个饭盒从来没换过水。登记本上写着
+      "一份，未领"，一天都没断过。<br><br>
+      　　这个饭盒是留给谁的？<br><br>
+      <span style="text-align:right;display:block;">魏晓博</span>
+    </div>
+    <div id="noReply" style="font-size:12px;color:#888;display:none;">
+      （该邮件暂无回复。）
+    </div>
+
     <p class="noindent" style="font-size:11px;color:#888;">
       <a href="blackboard.html">［食堂门口的黑板报］</a>
     </p>
@@ -97,8 +115,14 @@
 
 <script src="common.js"></script>
 <script>
-unlockAch('a15');
-markPage('canteen_reply');
+try { unlockAch('a16'); } catch (e) {}
+try { markPage('canteen_reply'); } catch (e) {}
+
+// "（该邮件暂无回复。）" 延迟 3-5 秒才出现
+setTimeout(function () {
+  var el = document.getElementById('noReply');
+  if (el) el.style.display = 'block';
+}, 4000);
 </script>
 </body>
 </html>

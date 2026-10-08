@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>历年值班日志 - 资中县第二中学 · 校园网</title>
+<title>值班交接本 - 资中县第二中学 · 校园网</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,9 +31,36 @@
 
   <div class="content">
 
-    <h2 class="section">历年值班日志（2004 → 今天）</h2>
+    <h2 class="section">水塔值班交接本</h2>
     <p class="noindent" style="font-size:11px;color:#888;">
-      本日志原为纸质，2011 年移交网络中心后转为电子表格，故字体由手写体变为等宽字体。
+      本页为纸质交接本转录　│　保管：总务处
+    </p>
+
+    <div class="scan" style="font-family:'宋体',SimSun,serif;">
+      资中县第二中学　水塔值班交接本<br>
+      值班人：周德明　　岗位：水塔水位抄录（总务处）<br>
+      本册起用：1996 年 1 月 1 日
+      <hr style="border:none;border-top:1px solid #bbb;margin:10px 0;">
+      <div style="line-height:2.4;">
+        4 月 1 日　今日抄表。无事。　　　　　　　　周德明<br>
+        4 月 2 日　今日抄表。无事。　　　　　　　　周德明<br>
+        4 月 3 日　今日抄表。无事。　　　　　　　　周德明<br>
+        4 月 4 日　今日抄表。无事。　　　　　　　　周德明<br>
+        4 月 5 日　今日抄表。无事。　　　　　　　　周德明<br>
+        4 月 6 日　今日抄表。无事。　　　　　　　　周德明<br>
+        <br>
+        4 月 7 日　今日抄表。读数异常。　　　　　　周德明<br>
+        <span style="padding-left:5em;">未交接。</span>
+      </div>
+      <hr style="border:none;border-top:1px solid #bbb;margin:10px 0;">
+      <div style="color:#888;font-size:11px;">
+        （下一页为空白。直至本册停用，未再填写。）
+      </div>
+    </div>
+
+    <h2 class="section" style="margin-top:24px;">历年值班记录（2004 → 今天）</h2>
+    <p class="noindent" style="font-size:11px;color:#888;">
+      本册原为纸质，2011 年移交网络中心后转为电子表格，故字体由手写体变为等宽字体。
     </p>
 
     <div class="terminal" id="logBox"></div>
@@ -62,15 +89,14 @@
   lines.push('<div class="dim">日期　　　　值班人　　备注</div>');
   lines.push('<div class="dim">──────────────────────────────────────</div>');
 
-  // 2004–2010：手写体（用楷体模拟）
   var early = [
-    [2004, '李维', '我不上去了'],
-    [2005, '—', '未安排'],
-    [2006, '—', '未安排'],
-    [2007, '王守义', '键坏了，门打不开'],
-    [2008, '—', '未安排'],
-    [2009, '—', '未安排'],
-    [2010, '—', '未安排']
+    [2004, '王建华', '我不上去了。上面太安静了。'],
+    [2005, '—', '未安排值班'],
+    [2006, '—', '未安排值班'],
+    [2007, '王守义', '代签，未上塔'],
+    [2008, '—', '未安排值班'],
+    [2009, '—', '未安排值班'],
+    [2010, '—', '未安排值班']
   ];
   for (var i = 0; i < early.length; i++) {
     var e = early[i];
@@ -80,28 +106,25 @@
 
   lines.push('<div class="dim">──── 以下为电子表格 ────</div>');
 
-  // 2011–2023：每年一模一样的一行
   for (var y = 2011; y <= 2023; y++) {
-    var note = (y === 2013) ? '陈敏　上去过一次' : '—　　未安排';
+    var note = (y === 2013) ? '陈敏　　上去过一次。以下内容申请删除' : '—　　未安排值班';
     lines.push('<div>' + y + '　　　　' + note + '</div>');
   }
 
-  // 今天
   lines.push('<div class="danger">' + new Date().getFullYear() +
-    '　　　　—　　未安排　　<span class="dim">（今日）</span></div>');
+    '　　　　—　　未安排值班　　<span class="dim">（今日）</span></div>');
 
   document.getElementById('logBox').innerHTML = lines.join('');
 
-  // 滚到底部解锁成就
   window.addEventListener('scroll', function () {
     var doc = document.documentElement;
     if (window.innerHeight + window.scrollY >= doc.scrollHeight - 60) {
-      unlockAch('a07');
+      try { unlockAch('a07'); } catch (e) {}
     }
   });
 })();
 
-markPage('log');
+try { markPage('log'); } catch (e) {}
 </script>
 </body>
 </html>

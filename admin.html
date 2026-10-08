@@ -108,6 +108,15 @@ function buildLogs() {
     logs.push({ t: y + '-04-07 23:11', acc: '账号 zdez', msg: '登录失败（1/3）', cls: 'dim' });
   }
 
+  // 2013 年那条工单（真结局钥匙的主入口）
+  logs.push({
+    t: '2013-04-07 22:41',
+    acc: '操作人 chenmin',
+    msg: '<a href="tearecord.html" style="color:#66ccff;">工单〔2013〕教-037 已归档</a>',
+    cls: 'warnline',
+    raw: true
+  });
+
   logs.push({
     t: todayStr() + ' 23:11',
     acc: '账号 未知',
@@ -126,7 +135,7 @@ function renderLogs() {
   for (var i = 0; i < logs.length; i++) {
     var L = logs[i];
     html += '<div class="' + (L.cls || '') + '">';
-    html += L.t + '　' + L.acc + '　' + L.msg;
+    html += L.t + '　' + L.acc + '　' + (L.raw ? L.msg : L.msg);
     if (L.ip) html += '　<span class="dim">操作 IP：' + L.ip + '</span>';
     html += '</div>';
   }
@@ -139,86 +148,50 @@ function tryReveal() {
   var v = document.getElementById('secretPass').value.trim();
   var msg = document.getElementById('secretMsg');
 
-  // 2316：彩蛋码
-  if (v === '2316') {
+  // 位数不对 / 只找到两段
+  if (v === '2831') {
     msg.style.color = '#ffcc00';
-    msg.innerHTML = '分机 2316　录音：<span class="dim">"这里是水塔值班室，现在没人。请在滴声后留言。"</span>';
-    unlockAch('a10');
+    msg.textContent = '校验码为六位。';
     return;
   }
 
-  // 283146：主校验码
+  // 283146：唯一正确答案
   if (v === '283146') {
     document.getElementById('secret').classList.add('revealed');
     document.getElementById('secretHint').textContent = '（已解密）';
     msg.style.color = '#33ff33';
     msg.innerHTML = '解密成功。' +
+      '<br>2003-04-07 23:16　门禁记录　值班室分机 2316 摘机（通话 0 秒）' +
       '<br><a href="raw.html" style="color:#66ccff;">［打开设备 3F-水位计 原始数据］</a>';
-    unlockAch('a04');
-    return;
-  }
-
-  // 462316：备用码
-  if (v === '462316') {
-    document.getElementById('secret').classList.add('revealed');
-    document.getElementById('secretHint').textContent = '（已解密）';
-    msg.style.color = '#33ff33';
-    msg.innerHTML = '备用码通过。' +
-      '<br><a href="raw.html" style="color:#66ccff;">［打开设备 3F-水位计 原始数据］</a>';
+    try { unlockAch('a04'); } catch (e) {}
     return;
   }
 
   msg.style.color = '#ff4444';
-  msg.textContent = v === '' ? '请输入校验码。' : '校验码不正确。';
+  msg.textContent = v === '' ? '请输入校验码。' : '校验码为六位。';
 }
 
 document.getElementById('secretPass').addEventListener('keydown', function (e) {
   if (e.key === 'Enter') tryReveal();
 });
 
-// 结局判定
+// 执行：关闭日志只是通往终章的门
 function doSubmit() {
   var close = document.getElementById('chkClose').checked;
   var go = document.getElementById('chkGo').checked;
   var msg = document.getElementById('endMsg');
 
-  if (close && go) {
-    // 结局 C 前置：关闭服务器（不再是独立结局）
-    msg.style.color = '#cc0000';
-    msg.textContent = '正在关闭服务器……';
-    setTimeout(function () {
-      var w = document.createElement('div');
-      w.className = 'whitescreen';
-      w.innerHTML = '<div>值班表已清空。</div>';
-      document.body.appendChild(w);
-      setTimeout(function () {
-        w.remove();
-        location.href = 'top.html';
-      }, 2600);
-    }, 800);
+  if (!close && !go) {
+    msg.style.color = '#ffcc00';
+    msg.textContent = '请至少选择一项操作。';
     return;
   }
 
-  if (close) {
-    // 结局 A《留校》
-    msg.style.color = '#cc0000';
-    msg.innerHTML = '日志已关闭。正在返回首页……<br>' +
-      '<a href="index.html?closed=1" style="color:#33ff33;font-size:11px;">［如果没有自动跳转，请点这里］</a>';
-    unlockAch('a20');
-    lsSet('ending', 'A');
-    setTimeout(function () { location.href = 'index.html?closed=1'; }, 1200);
-    setTimeout(function () { location.replace('index.html?closed=1'); }, 2200);
-    return;
-  }
-
-  if (go) {
-    // 结局 B/C/F 入口
-    location.href = 'top.html';
-    return;
-  }
-
-  msg.style.color = '#ffcc00';
-  msg.textContent = '请至少选择一项操作。';
+  msg.style.color = '#33ff33';
+  msg.innerHTML = '关闭日志前，系统要求确认水塔现场状态。<br>' +
+    '正在读取……<br>' +
+    '<a href="top.html" style="color:#66ccff;">［继续］</a>';
+  setTimeout(function () { location.href = 'top.html'; }, 1400);
 }
 
 renderLogs();

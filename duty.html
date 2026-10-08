@@ -34,6 +34,10 @@
 
     <h2 class="section">值班记录 · 2003 年 4 月</h2>
 
+    <p class="noindent" style="font-size:11px;color:#888;">
+      本册仅限当日值班人查看，口令为值班日期。
+    </p>
+
     <div class="terminal">
       <div>总务处值班日志　│　录入员：王守义　│　录入日期：2003-04-08</div>
       <div class="dim">────────────────────────────────────────────</div>
@@ -111,18 +115,7 @@ function checkPass() {
     msg.style.color = '#008000';
     msg.innerHTML = '口令正确，正在进入水塔水位监测系统……<br>' +
       '<a href="admin.html" style="font-size:11px;">［如果没有自动跳转，请点这里］</a>';
-    unlockAch('a03');
-    setTimeout(function () { location.href = 'admin.html'; }, 700);
-    setTimeout(function () { location.replace('admin.html'); }, 1600);
-    return;
-  }
-
-  // 备用码 462316（输错三次后接受）
-  if (v === '462316' && wrongCount >= 3) {
-    msg.style.color = '#008000';
-    msg.innerHTML = '备用码通过，正在进入……<br>' +
-      '<a href="admin.html" style="font-size:11px;">［如果没有自动跳转，请点这里］</a>';
-    unlockAch('a03');
+    try { unlockAch('a03'); } catch (e) {}
     setTimeout(function () { location.href = 'admin.html'; }, 700);
     setTimeout(function () { location.replace('admin.html'); }, 1600);
     return;
@@ -138,13 +131,13 @@ function checkPass() {
 
   // 递进提示
   if (wrongCount === 1) {
-    msg.textContent = '口令不正确。（第 1 次）';
+    msg.textContent = '口令不正确。口令为八位数字。';
   } else if (wrongCount === 2) {
-    msg.textContent = '口令不正确。（第 2 次）';
-    extra.textContent = '提示：就是 4 月 7 日那一天。';
+    msg.textContent = '口令不正确。就是 4 月 7 日那一天。';
+    extra.textContent = '';
   } else {
-    msg.textContent = '口令不正确。（第 3 次）';
-    extra.textContent = '备用码：铁梯 ＋ 分机。';
+    msg.textContent = '口令不正确。';
+    extra.textContent = '八位，年月日，不用任何分隔符。';
     // 04-07 行闪烁
     var row = document.getElementById('row0407');
     if (row) {

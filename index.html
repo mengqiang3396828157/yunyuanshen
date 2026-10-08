@@ -75,6 +75,26 @@
       （示意图由网络中心绘制，比例仅供参考。点击水塔可查看详图。）
     </p>
 
+    <h3 class="sub">最新动态</h3>
+    <table class="old">
+      <tr>
+        <th style="width:110px;">日期</th>
+        <th>标题</th>
+      </tr>
+      <tr>
+        <td>2003-04-07</td>
+        <td><a href="notice_2003.html">关于水塔顶增设水位监测装置的通告</a></td>
+      </tr>
+      <tr>
+        <td>2003-04-06</td>
+        <td><a href="notice.html">关于清明假期值班安排的通知</a></td>
+      </tr>
+      <tr>
+        <td>2003-04-02</td>
+        <td><a href="notice.html">关于校园网络设备检修的通知</a></td>
+      </tr>
+    </table>
+
     <h3 class="sub">校园风光</h3>
     <div class="broken-img">
       图片无法显示（图床故障，2003 年 4 月起）
@@ -85,9 +105,12 @@
     <div class="counter">
       本站访问量 0002831　今日访问 <span class="blink" id="visitCount">1</span>
     </div>
+    <div style="font-size:11px;color:#888;text-align:center;margin-top:4px;">
+      今日值班人：<span id="dutyName"></span>
+    </div>
     <div id="visitNote" style="font-size:11px;color:#888;text-align:center;"></div>
     <p class="noindent" style="font-size:11px;color:#888;text-align:center;">
-      本站已运行 <span id="uptime">0</span> 天　│　技术支持：网络中心
+      本站已运行 <span id="uptime">0</span> 天　│　值班室电话：分机 2316　│　技术支持：网络中心
     </p>
 
     <div class="hint">
@@ -111,42 +134,30 @@
 <script>
 (function () {
   // 首次访问成就
-  unlockAch('a01');
+  try { unlockAch('a01'); } catch (e) {}
 
-  // 回访记忆
-  var rv = checkReturnVisit();
-  if (rv.isReturn) {
-    var n = 2;
-    document.getElementById('visitCount').textContent = n;
-    document.getElementById('visitNote').textContent = '（你昨天看到这里了）';
-    unlockAch('a20');
-  }
-
-  // 结局 A 返回：今日访问 +1，并顶出值班表提示
-  var params = new URLSearchParams(location.search);
-  if (params.get('closed') === '1') {
+  // 结局 A《留校》兑现：今日访问 1→2，今日值班人填上"你"
+  if (lsGet('ending', '') === 'A') {
     document.getElementById('visitCount').textContent = '2';
-    document.getElementById('visitNote').textContent = '已有两人查看。';
-
-    // 顶出值班表提示
-    var alert = document.createElement('div');
-    alert.className = 'top-banner-alert';
-    alert.innerHTML =
-      '值班表已更新。今日值班人：你。交接时间：明天 23:11。';
-    document.querySelector('.page').insertBefore(alert, document.querySelector('.banner').nextSibling);
-
-    // 最后一屏
-    setTimeout(function () {
-      var tip = document.createElement('div');
-      tip.style.cssText = 'position:fixed;inset:0;background:#000;color:#888;' +
-        'display:flex;align-items:center;justify-content:center;z-index:300;' +
-        'font-family:宋体,SimSun,serif;font-size:16px;letter-spacing:2px;';
-      tip.textContent = '值班铃还会响。';
-      document.body.appendChild(tip);
-    }, 4000);
+    document.getElementById('visitNote').textContent = '';
+    document.getElementById('dutyName').textContent = '你';
+  } else {
+    // 回访记忆：只加灰字，不许动计数器数字（那是结局 A 专属）
+    var rv = checkReturnVisit();
+    if (rv.isReturn) {
+      document.getElementById('visitNote').textContent = '（你昨天看到这里了）';
+      try { unlockAch('a24'); } catch (e) {}
+    }
   }
 
-  // 结局 F 返回：首页 404
+  // 4 月 7 日彩蛋
+  if (isApril7()) {
+    var extra = document.getElementById('marqueeExtra');
+    if (extra) extra.textContent = '　│　　【总务处】今天不用上塔。';
+    try { unlockAch('a25'); } catch (e) {}
+  }
+
+  // 结局 C 之后：首页 404
   if (lsGet('finished', '0') === '1') {
     document.body.innerHTML =
       '<div style="text-align:center;padding:60px 20px;font-family:宋体,SimSun,serif;">' +
@@ -158,13 +169,7 @@
     return;
   }
 
-  // 4 月 7 日彩蛋
-  if (isApril7()) {
-    document.getElementById('marqueeExtra').textContent = '　│　　【总务处】今天不用上塔。';
-    unlockAch('a23');
-  }
-
-  markPage('index');
+  try { markPage('index'); } catch (e) {}
 })();
 </script>
 </body>
