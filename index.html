@@ -1,189 +1,240 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>资中县第二中学 · 校园网</title>
-<link rel="stylesheet" href="style.css">
-<!--
-  访问间隔参考值 2-8-
-  （网络中心 2003-04 备注，勿删）
--->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#07050d" />
+  <meta name="description" content="指尖花间 —— 用 MediaPipe 手势识别与 Three.js 粒子，让花朵在指尖合拢与绽放。" />
+  <title>指尖花间 · Fingertip Bloom</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="stylesheet" href="./css/style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three.module.js",
+        "three/addons/": "./vendor/addons/"
+      }
+    }
+  </script>
 </head>
 <body>
+  <div id="app" data-mode="idle">
+    <canvas id="stage" aria-hidden="true"></canvas>
 
-<div class="page">
-
-  <div class="banner">
-    <div class="logo">二中</div>
-    <div class="banner-text">
-      <h1>资中县第二中学 · 校园网</h1>
-      <div class="sub">建站于 2003 年 3 月　│　建议 IE5.5 以上、800×600 浏览</div>
+    <div class="ambient" aria-hidden="true">
+      <div class="ambient-glow ambient-glow--rose"></div>
+      <div class="ambient-glow ambient-glow--violet"></div>
+      <div class="vignette"></div>
+      <div class="grain"></div>
     </div>
-  </div>
 
-  <div class="nav">
-    <a href="index.html" class="current">首页</a>
-    <a href="about.html">学校概况</a>
-    <a href="news.html">校园新闻</a>
-    <a href="notice.html">通知公告</a>
-    <a href="canteen.html">食堂公示</a>
-    <a href="map.html">校园平面图</a>
-    <a href="names.html">值日表</a>
-    <a href="contact.html">校长信箱</a>
-  </div>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="指尖花间 首页">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M20 20C13 17.8 10.2 13.4 11.4 7.4c5.7.7 9.3 4.6 8.6 12.6Z" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M20 20c2.2-7 6.6-9.8 12.6-8.6-.7 5.7-4.6 9.3-12.6 8.6Z" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M20 20c7 2.2 9.8 6.6 8.6 12.6-5.7-.7-9.3-4.6-8.6-12.6Z" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M20 20c-2.2 7-6.6 9.8-12.6 8.6.7-5.7 4.6-9.3 12.6-8.6Z" stroke="currentColor" stroke-width="1.1"/>
+            <circle cx="20" cy="20" r="2.3" fill="currentColor" opacity=".65"/>
+          </svg>
+        </span>
+        <span class="brand-type">
+          <span class="brand-cn">指尖花间</span>
+          <span class="brand-en">FINGERTIP BLOOM</span>
+        </span>
+      </a>
 
-  <div class="marquee-bar">
-    <div class="marquee-inner" id="marqueeInner">
-      【总务处】水塔顶增设水位监测装置，施工延期，请勿靠近。
-      <span id="marqueeExtra"></span>
-      　│　　【教务处】关于元旦文艺晚会节目征集的通知　　│　　【网络中心】本站启用新域名，老用户请重新登录。　　│　　【总务处】水塔顶增设水位监测装置，施工延期，请勿靠近。
-    </div>
-  </div>
-
-  <div class="content">
-
-    <h2 class="section">学校简介</h2>
-    <p>
-      资中县第二中学创建于 1957 年，位于县城西北，占地约 60 亩。现有教学班 32 个，
-      在校学生 1800 余人，教职工 140 人。学校坚持"厚德、博学、笃行"的校训，
-      多年来为高等院校输送了大批合格新生。
-    </p>
-    <p>
-      校园内设有教学楼、实验楼、学生宿舍、食堂、操场及库房等设施。
-      学校西北角的水塔建成于 1984 年，塔高 22 米，是我校建校初期的标志性建筑。
-    </p>
-
-    <h3 class="sub">校园平面示意图</h3>
-    <div class="map">
-      <div class="map-row">
-        <div class="map-cell">教学楼（南）</div>
-        <div class="map-cell">实验楼</div>
-        <div class="map-cell">学生宿舍</div>
+      <div class="top-actions">
+        <div class="privacy-chip">
+          <span class="status-dot"></span>
+          <span>本地识别 · 画面不上传</span>
+        </div>
+        <button class="icon-btn" id="helpBtn" type="button" aria-label="查看操作说明" title="操作说明">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M9.8 9.6a2.25 2.25 0 1 1 3.25 2.02c-.7.36-1.05.82-1.05 1.55v.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <circle cx="12" cy="16.75" r=".85" fill="currentColor"/>
+          </svg>
+        </button>
       </div>
-      <div class="map-row">
-        <div class="map-cell">食堂</div>
-        <div class="map-cell">操场</div>
-        <div class="map-cell">库房</div>
+    </header>
+
+    <main>
+      <section class="hero-copy" aria-labelledby="heroTitle">
+        <div class="eyebrow reveal" style="--delay: .15s">
+          <span class="eyebrow-line"></span>
+          <span>GESTURE × PARTICLE GARDEN</span>
+        </div>
+
+        <h1 id="heroTitle" class="reveal" style="--delay: .25s">
+          让花开在<br />
+          <span class="hero-em">指尖<em>。</em></span>
+        </h1>
+
+        <p class="hero-lede reveal" style="--delay: .38s">
+          握拳，收拢一场含苞的心事；<br />
+          张开手掌，让光与花瓣一同醒来。
+        </p>
+
+        <div class="hero-steps reveal" style="--delay: .5s" aria-label="手势说明">
+          <div class="hero-step">
+            <span class="step-num">01</span>
+            <span class="step-copy"><b>握拳</b><small>花朵收拢成苞</small></span>
+          </div>
+          <span class="step-rule"></span>
+          <div class="hero-step">
+            <span class="step-num">02</span>
+            <span class="step-copy"><b>张开</b><small>粒子向外绽放</small></span>
+          </div>
+        </div>
+
+        <div class="start-dock reveal" id="startDock" style="--delay: .62s">
+          <button class="cta" id="startCamera" type="button">
+            <span class="cta-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4.5 8.2h2.2l1.25-2.1h8.1l1.25 2.1h2.2c.97 0 1.75.78 1.75 1.75v7.3c0 .97-.78 1.75-1.75 1.75H4.5A1.75 1.75 0 0 1 2.75 17.25v-7.3c0-.97.78-1.75 1.75-1.75Z" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="13.3" r="3.15" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="18.1" cy="10.4" r=".7" fill="currentColor"/>
+              </svg>
+            </span>
+            <span class="cta-text">
+              <b>开启摄像头</b>
+              <small>轻触，唤醒你的指尖花园</small>
+            </span>
+            <span class="cta-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6.5 18.5 12 13 17.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <span class="cta-progress" aria-hidden="true"><span class="spinner"></span><span id="ctaProgressText">唤 醒 中</span></span>
+          </button>
+
+          <button class="demo-link" id="startDemo" type="button">
+            <span class="demo-link-dot"></span>
+            没有摄像头？先用鼠标看看
+          </button>
+
+          <p class="privacy-note" id="startHint">首次加载本地手势模型约需数秒 · 建议 Chrome / Edge</p>
+        </div>
+      </section>
+
+      <aside class="side-rail" aria-label="体验步骤">
+        <div class="rail-line"></div>
+        <ol>
+          <li><span>01</span><b>让手进入画面</b><small>掌心朝向镜头，距离 40–70 cm</small></li>
+          <li><span>02</span><b>握拳再张开</b><small>看花苞在指间缓缓苏醒</small></li>
+          <li><span>03</span><b>转动掌心</b><small>花朵会随手掌旋转、倾斜，泛起微光</small></li>
+        </ol>
+      </aside>
+
+      <div class="live-quote" id="liveQuote" aria-hidden="true">
+        <span class="live-quote-mark">“</span>
+        <p>一花一世界，<br />一指一春天。</p>
       </div>
-      <div class="map-row">
-        <div class="map-cell" style="flex:2;">门卫室 / 正门</div>
-        <a class="map-cell tower" href="map.html" style="text-decoration:none;">水塔</a>
+
+      <section class="hud" id="hud" aria-label="手势状态">
+        <div class="hud-top">
+          <div class="hud-status">
+            <span class="gesture-orb" id="gestureOrb"><i></i></span>
+            <div>
+              <span class="hud-kicker">GESTURE</span>
+              <b id="gestureLabel">等待手掌</b>
+            </div>
+          </div>
+
+          <div class="hud-fingers" id="fingerDots" aria-label="手指伸展状态">
+            <span class="finger-dot" data-finger="0"></span>
+            <span class="finger-dot" data-finger="1"></span>
+            <span class="finger-dot" data-finger="2"></span>
+            <span class="finger-dot" data-finger="3"></span>
+            <span class="finger-dot" data-finger="4"></span>
+          </div>
+
+          <div class="hud-value">
+            <span id="bloomValue">86</span><small>%</small>
+            <em>BLOOM</em>
+          </div>
+        </div>
+
+        <div class="meter" aria-hidden="true">
+          <div class="meter-track">
+            <div class="meter-fill" id="bloomFill"></div>
+            <div class="meter-head" id="bloomHead"></div>
+          </div>
+          <div class="meter-ends">
+            <span>握拳 · 含苞</span>
+            <span>张开 · 绽放</span>
+          </div>
+        </div>
+
+        <div class="hud-tip" id="hudTip">
+          <span class="tip-pulse"></span>
+          <span id="hudTipText">握拳收拢，张开手掌，让花慢慢醒来。</span>
+        </div>
+      </section>
+    </main>
+
+    <aside class="camera-panel" id="cameraPanel" aria-label="摄像头画面">
+      <div class="camera-head">
+        <span class="camera-title"><i class="live-dot"></i> HAND / LIVE</span>
+        <button class="camera-collapse" id="cameraToggle" type="button" aria-label="隐藏摄像头画面" title="隐藏画面">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9.5 12 15l6-5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="camera-body">
+        <video id="cam" playsinline muted autoplay aria-label="摄像头实时画面"></video>
+        <canvas id="camOverlay" aria-hidden="true"></canvas>
+        <div class="camera-scan" aria-hidden="true"></div>
+        <div class="camera-empty" id="cameraEmpty">把手放进画面</div>
+        <div class="camera-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="camera-foot">
+        <span id="trackerState">寻找手部</span>
+        <span id="trackerFps">— FPS</span>
+      </div>
+    </aside>
+
+    <div class="mode-chip" id="modeChip">
+      <span class="mode-dot"></span>
+      <span id="modeChipText">鼠标体验中</span>
+      <button id="modeSwitch" type="button">开启摄像头</button>
+    </div>
+
+    <footer class="footer">
+      <span>THREE.JS <i>×</i> MEDIAPIPE HANDS</span>
+      <span class="footer-center">GESTURE-DRIVEN PARTICLE FLORA</span>
+      <span>LOCAL / 2026</span>
+    </footer>
+
+    <div class="notice" id="notice" role="alert" hidden>
+      <span class="notice-icon">!</span>
+      <div class="notice-copy">
+        <b id="noticeTitle">摄像头未就绪</b>
+        <p id="noticeText">请检查浏览器权限。</p>
+      </div>
+      <button class="notice-close" id="noticeClose" type="button" aria-label="关闭提示">×</button>
+    </div>
+
+    <div class="help-panel" id="helpPanel" hidden>
+      <div class="help-card">
+        <button class="help-close" id="helpClose" type="button" aria-label="关闭帮助">×</button>
+        <span class="help-kicker">HOW TO BLOOM</span>
+        <h2>让花，听懂你的手。</h2>
+        <div class="help-row"><span>01</span><p><b>握拳</b><br />五指收拢，花朵会折叠成一枚发光的花苞。</p></div>
+        <div class="help-row"><span>02</span><p><b>张开手掌</b><br />五指舒展，花瓣与光点从花心向外绽放。</p></div>
+        <div class="help-row"><span>03</span><p><b>旋转掌心</b><br />手掌左右移动会让花朵转过来，转动腕部则让花瓣绕中心旋转。</p></div>
+        <p class="help-foot">手势识别全程在浏览器本地完成，摄像头画面不会被上传。光线充足、手掌正对镜头时识别更稳定。</p>
       </div>
     </div>
-    <p class="noindent" style="font-size:11px;color:#888;">
-      （示意图由网络中心绘制，比例仅供参考。点击水塔可查看详图。）
-    </p>
 
-    <h3 class="sub">最新动态</h3>
-    <table class="old">
-      <tr>
-        <th style="width:110px;">日期</th>
-        <th>标题</th>
-      </tr>
-      <tr>
-        <td>2003-04-07</td>
-        <td><a href="notice_2003.html">关于水塔顶增设水位监测装置的通告</a></td>
-      </tr>
-      <tr>
-        <td>2003-04-06</td>
-        <td><a href="notice.html">关于清明假期值班安排的通知</a></td>
-      </tr>
-      <tr>
-        <td>2003-04-02</td>
-        <td><a href="notice.html">关于校园网络设备检修的通知</a></td>
-      </tr>
-    </table>
-
-    <h3 class="sub">校园风光</h3>
-    <div class="broken-img">
-      图片无法显示（图床故障，2003 年 4 月起）
-      <br><a href="images.html" style="font-size:11px;">［查看影像页文字存档］</a>
+    <div class="webgl-error" id="webglError" hidden>
+      <div>
+        <span>WEBGL UNAVAILABLE</span>
+        <h2>这朵花需要 WebGL 才能开放。</h2>
+        <p>请使用最新版 Chrome / Edge，并确认浏览器已开启硬件加速。</p>
+      </div>
     </div>
-
-    <h3 class="sub">本站统计</h3>
-    <div class="counter">
-      本站访问量 0002831　今日访问 <span class="blink" id="visitCount">1</span>
-    </div>
-    <div style="font-size:11px;color:#888;text-align:center;margin-top:4px;">
-      本周值周领导：李伟　　值周教师：陈勇刚<br>
-      今日值班人：<span id="dutyName"></span>
-    </div>
-    <div id="visitNote" style="font-size:11px;color:#888;text-align:center;"></div>
-    <p class="noindent" style="font-size:11px;color:#888;text-align:center;">
-      本站已运行 <span id="uptime">0</span> 天　│　值班室电话：分机 2316　│　技术支持：网络中心
-    </p>
-
-    <div class="hint">
-      友情链接：
-      <a href="oldpost.html">［缓存页］有人记得咱学校那个水塔吗</a>　│　
-      <a href="404.html">资中县第一中学（校友站）</a>　│　
-      <a href="https://www.yuanshen.com/#/" target="_blank" rel="noopener">原神启动</a>
-    </div>
-
   </div>
 
-  <div class="footer">
-    <div class="f1">资中县第二中学　地址：四川省资中县重龙镇××街××号　邮编：641200</div>
-    <div class="f2">电话：0832-5××××××　　总务处值班室（水塔一楼）：分机 2316</div>
-    <div class="f3">本站由总务处网络中心维护　建议 IE5.5 以上、800×600 分辨率浏览</div>
-    <div class="f4">川 ICP 备 05××××××× 号　　本页面为虚构创作，与现实学校、个人无关。</div>
-  </div>
-
-  </div>
-
-<script src="common.js"></script>
-<script>
-(function () {
-  // 首次访问成就
-  try { unlockAch('a01'); } catch (e) {}
-
-  // 结局 A《留校》兑现：今日访问 1→2，今日值班人填上"你"
-  if (lsGet('ending', '') === 'A') {
-    document.getElementById('visitCount').textContent = '2';
-    document.getElementById('visitNote').textContent = '';
-    document.getElementById('dutyName').textContent = '你';
-  } else {
-    // 回访记忆：只加灰字，不许动计数器数字（那是结局 A 专属）
-    var rv = checkReturnVisit();
-    if (rv.isReturn) {
-      document.getElementById('visitNote').textContent = '（你昨天看到这里了）';
-      try { unlockAch('a24'); } catch (e) {}
-    }
-  }
-
-  // 4 月 7 日彩蛋
-  if (isApril7()) {
-    var extra = document.getElementById('marqueeExtra');
-    if (extra) extra.textContent = '　│　　【总务处】今天不用上塔。';
-    try { unlockAch('a25'); } catch (e) {}
-  }
-
-  // 结局 C 之后：首页 404
-  if (lsGet('finished', '0') === '1') {
-    // 测试模式：?test=1 时跳过 404，方便继续测试
-    var isTest = new URLSearchParams(location.search).get('test') === '1';
-    if (!isTest) {
-      document.body.innerHTML =
-        '<div style="text-align:center;padding:60px 20px;font-family:宋体,SimSun,serif;">' +
-        '<div style="font-size:48px;color:#cc0000;font-weight:bold;letter-spacing:4px;">404</div>' +
-        '<div style="margin-top:20px;font-size:14px;line-height:2.2;">' +
-        '您要访问的页面不存在。<br>本站已归档。</div>' +
-        '<div style="margin-top:20px;"><a href="oldpost.html">［查看缓存］</a></div>' +
-        '</div>';
-      return;
-    }
-    // 测试模式提示条（不含 reset 入口，需手动访问 reset.html）
-    var bar = document.createElement('div');
-    bar.className = 'top-banner-alert';
-    bar.style.background = '#1B4B8F';
-    bar.innerHTML = '测试模式（?test=1）　│　' +
-      '<a href="index.html" style="color:#ffd700;">［退出测试模式］</a>';
-    document.querySelector('.page').insertBefore(bar, document.querySelector('.banner').nextSibling);
-  }
-
-  try { markPage('index'); } catch (e) {}
-})();
-</script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 </html>
